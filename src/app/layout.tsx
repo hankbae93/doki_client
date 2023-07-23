@@ -1,7 +1,12 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Provider from "@/app/provider";
+import { ThemeProvider, CssBaseline } from "@mui/material";
+import theme from "@/app/provider/theme";
+import EmotionProvider from "@/app/provider/EmotionProvider";
+import ReactQueryProvider from "@/app/provider/ReactQueryProvider";
+import RecoilProvider from "@/app/provider/RecoilProvider";
+import { ReactNode } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -10,16 +15,19 @@ export const metadata: Metadata = {
   description: "도키도키망가부",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <Provider>{children}</Provider>
-      </body>
-    </html>
+    <EmotionProvider>
+      <html lang="en">
+        <body className={inter.className}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <RecoilProvider>
+              <ReactQueryProvider>{children}</ReactQueryProvider>
+            </RecoilProvider>
+          </ThemeProvider>
+        </body>
+      </html>
+    </EmotionProvider>
   );
 }
