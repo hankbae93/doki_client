@@ -1,12 +1,14 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { ThemeProvider, CssBaseline } from "@mui/material";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import theme from "@/app/provider/theme";
 import EmotionProvider from "@/app/provider/EmotionProvider";
 import ReactQueryProvider from "@/app/provider/ReactQueryProvider";
 import RecoilProvider from "@/app/provider/RecoilProvider";
 import { ReactNode } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,6 +26,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <CssBaseline />
             <RecoilProvider>
               <ReactQueryProvider>{children}</ReactQueryProvider>
+              <ToastContainer />
             </RecoilProvider>
           </ThemeProvider>
         </body>
