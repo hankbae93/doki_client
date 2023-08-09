@@ -1,14 +1,11 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { CssBaseline, ThemeProvider } from "@mui/material";
-import theme from "@/app/provider/theme";
-import EmotionProvider from "@/app/provider/EmotionProvider";
-import ReactQueryProvider from "@/app/provider/ReactQueryProvider";
-import RecoilProvider from "@/app/provider/RecoilProvider";
+import { CssBaseline } from "@mui/material";
 import { ReactNode } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import CombineProvider from "@/app/provider/Provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,18 +16,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <EmotionProvider>
-      <html lang="en">
-        <body className={inter.className}>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <RecoilProvider>
-              <ReactQueryProvider>{children}</ReactQueryProvider>
-              <ToastContainer />
-            </RecoilProvider>
-          </ThemeProvider>
-        </body>
-      </html>
-    </EmotionProvider>
+    <html lang="en">
+      <body className={inter.className}>
+        <CombineProvider>
+          <CssBaseline />
+          {children}
+          <ToastContainer />
+        </CombineProvider>
+      </body>
+    </html>
   );
 }
