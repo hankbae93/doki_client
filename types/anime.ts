@@ -7,6 +7,7 @@ export enum AnimeSource {
 export interface Anime {
   id: number;
   title: string;
+  description: string;
   tag: string;
   thumbnail: string;
   animeParentId: string;

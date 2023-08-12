@@ -7,3 +7,11 @@ export const fetchAnime = async (animeId: number) => {
 
   return data.data;
 };
+
+export const fetchAnimeList = async () => {
+  const { data } = await api.get<
+    APIResponse<{ animes: Anime[]; total: number }>
+  >(`/anime`);
+
+  return data.data;
+};

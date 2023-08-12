@@ -1,3 +1,4 @@
 export enum QueryKey {
   FETCH_ANIME = "FETCH_ANIME",
+  FETCH_ANIME_LIST = "FETCH_ANIME_LIST",
 }

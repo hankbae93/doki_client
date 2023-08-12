@@ -4,6 +4,7 @@ import { useUserStore } from "@/atoms/user";
 import { Button, Toolbar, Typography } from "@mui/material";
 import { RoutePath } from "@/constants/route";
 import useMount from "@/layouts/useMount";
+import AnimeList from "@/components/AnimeList";
 
 const Home: NextPage = () => {
   const { isMount } = useMount();
@@ -52,12 +53,13 @@ const Home: NextPage = () => {
           </>
         )}
       </Toolbar>
-
       <Toolbar
         component="nav"
         variant="dense"
         sx={{ justifyContent: "space-between", overflowX: "auto" }}
       />
+      11
+      <AnimeList />
     </>
   );
 };
