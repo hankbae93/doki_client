@@ -1,8 +1,8 @@
-import React from "react";
-import SignIn from "@/app/auth/signIn/SignIn";
 import AuthLayout from "@/layouts/auth-layout";
+import SignIn from "@/components/auth/SignIn";
+import { NextPage } from "next";
 
-const SignInPage = () => {
+const SignInPage: NextPage = () => {
   return (
     <AuthLayout>
       <SignIn />

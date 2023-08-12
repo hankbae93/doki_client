@@ -1,12 +1,11 @@
-"use client";
-
 import React, { FormEventHandler } from "react";
 import { Box, Button, Grid, Link, TextField, Typography } from "@mui/material";
 import { RoutePath } from "@/constants/route";
 import { useMutation } from "@tanstack/react-query";
 import { signUp } from "@/api/auth";
-import { useRouter } from "next/navigation";
+
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 const SignUp = () => {
   const { push } = useRouter();

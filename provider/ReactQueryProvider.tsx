@@ -1,5 +1,3 @@
-"use client";
-
 import { ReactNode, useRef } from "react";
 import { QueryClient } from "@tanstack/query-core";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -20,8 +18,8 @@ const ReactQueryProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <QueryClientProvider client={queryClientRef.current}>
-      <ReactQueryDevtools />
       {children}
+      <ReactQueryDevtools />
     </QueryClientProvider>
   );
 };

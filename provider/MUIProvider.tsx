@@ -1,17 +1,31 @@
-"use client";
-
-import { Roboto } from "next/font/google";
-import { createTheme } from "@mui/material/styles";
+import { CacheProvider } from "@emotion/react";
+import {
+  createTheme,
+  CssBaseline,
+  ThemeOptions,
+  ThemeProvider,
+} from "@mui/material";
+import createCache from "@emotion/cache";
+import { ReactNode } from "react";
 import { red } from "@mui/material/colors";
 
-export const roboto = Roboto({
-  weight: ["300", "400", "500", "700"],
-  subsets: ["latin"],
-  display: "swap",
-  fallback: ["Helvetica", "Arial", "sans-serif"],
-});
+export const createEmotionCache = () => {
+  return createCache({ key: "css", prepend: true });
+};
 
-// Create a theme instance.
+const MUIProvider = ({ children }: { children: ReactNode }) => {
+  const clientSideEmotionCache = createEmotionCache();
+
+  return (
+    <CacheProvider value={clientSideEmotionCache}>
+      <CssBaseline />
+      <ThemeProvider theme={theme}>{children}</ThemeProvider>
+    </CacheProvider>
+  );
+};
+
+export default MUIProvider;
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -100,5 +114,3 @@ const theme = createTheme({
     },
   },
 });
-
-export default theme;

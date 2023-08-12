@@ -1,7 +1,7 @@
 import AuthLayout from "@/layouts/auth-layout";
-import SignUp from "@/app/auth/signUp/SignUp";
+import SignUp from "@/components/auth/SignUp";
 
-const RegisterPage = () => {
+const SignUpPage = () => {
   return (
     <AuthLayout>
       <SignUp />
@@ -9,4 +9,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default SignUpPage;

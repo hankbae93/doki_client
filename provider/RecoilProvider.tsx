@@ -1,4 +1,4 @@
-"use client";
+
 
 import { RecoilRoot, useRecoilSnapshot } from "recoil";
 import { ReactNode, useEffect } from "react";

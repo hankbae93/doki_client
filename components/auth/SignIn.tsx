@@ -1,5 +1,3 @@
-"use client";
-
 import { Box, Button, Link, Stack, TextField, Typography } from "@mui/material";
 import { ChangeEventHandler, FormEventHandler, useState } from "react";
 import NextLink from "next/link";
@@ -7,8 +5,9 @@ import { useMutation } from "@tanstack/react-query";
 import { signIn } from "@/api/auth";
 import { RoutePath } from "@/constants/route";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
+
 import { useUserStore } from "@/atoms/user";
+import { useRouter } from "next/router";
 
 const SignIn = () => {
   const { setUser } = useUserStore();
