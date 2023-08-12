@@ -1,4 +1,4 @@
 export enum RoutePath {
-  SIGN_IN = "/signIn",
-  SIGN_UP = "/signUp",
+  SIGN_IN = "/auth/signIn",
+  SIGN_UP = "/auth/signUp",
 }

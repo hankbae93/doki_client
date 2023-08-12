@@ -18,8 +18,6 @@ const AuthLayout = ({ children }: { children: ReactNode }) => {
           xs={12}
           lg={6}
           sx={{
-            background:
-              "radial-gradient(50% 50% at 50% 50%, #122647 0%, #090E23 100%)",
             objectFit: "cover",
             display: "flex",
             flexDirection: "column",

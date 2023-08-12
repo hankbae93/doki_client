@@ -13,3 +13,13 @@ export const signIn = (body: SignInDto) => {
     body,
   );
 };
+
+export interface SignUpDto {
+  email: string;
+  password: string;
+  nickname: string;
+}
+
+export const signUp = (body: SignUpDto) => {
+  return api.post<APIResponse<null>>("/user/signup", body);
+};
