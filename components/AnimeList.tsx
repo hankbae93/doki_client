@@ -1,13 +1,13 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { QueryKey } from "@/constants/query-key";
-import { fetchAnimeList } from "@/api/anime";
+import { getAnimeList } from "@/api/anime";
 import AnimeCard from "@/components/AnimeCard";
 import { Box, Grid } from "@mui/material";
 import { RoutePath } from "@/constants/route";
 
 const AnimeList = () => {
-  const { data } = useQuery([QueryKey.FETCH_ANIME_LIST], fetchAnimeList);
+  const { data } = useQuery([QueryKey.FETCH_ANIME_LIST], getAnimeList);
 
   return (
     <Box sx={{ m: "auto", maxWidth: 1024 }}>
