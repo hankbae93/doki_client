@@ -16,6 +16,8 @@ import React, { ChangeEventHandler, FormEventHandler, useState } from "react";
 import { AnimeSource } from "@/types/anime";
 import useMount from "@/hooks/useMount";
 import { uploadImage } from "@/api/common";
+import { postCreateAnime, PostCreateAnimeDto } from "@/api/anime";
+import { toast } from "react-toastify";
 
 const AnimeCreatePage: NextPage = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -39,18 +41,40 @@ const AnimeCreatePage: NextPage = () => {
     e.preventDefault();
     if (!file) return;
     const formData = new FormData(e.currentTarget);
-    console.log(formData);
-    const body = {};
+
     const data = Array.from(formData.entries()).reduce((acc, [k, v]) => {
       // @ts-ignore
       acc[k] = v;
       return acc;
     }, {});
 
-    const response = await uploadImage(file);
-    console.log(response);
-
-    console.log(data);
+    try {
+      const thumbnail = await uploadImage(file);
+      const body = Object.assign(data, {
+        thumbnail,
+        source,
+      }) as PostCreateAnimeDto;
+      console.log(body);
+      await postCreateAnime(body);
+      toast.success("애니메이션 등록이 완료되셨습니다.", {
+        position: "top-right",
+        autoClose: 2000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+      });
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error.message, {
+        position: "top-right",
+        autoClose: 2000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+      });
+    }
   };
 
   if (!isMount) return <></>;
