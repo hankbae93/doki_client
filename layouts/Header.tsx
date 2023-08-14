@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Toolbar, Typography } from "@mui/material";
+import { Button, Link, Toolbar, Typography } from "@mui/material";
 import { RoutePath } from "@/constants/route";
 import { useRouter } from "next/router";
 import { useUserStore } from "@/atoms/user";
@@ -26,7 +26,12 @@ const Header = () => {
           noWrap
           sx={{ flex: 1 }}
         >
-          ️‍🔥ドキドキ 漫画部!!! ❤️‍🔥
+          <Link
+            href={RoutePath.HOME}
+            style={{ textDecoration: "unset", color: "unset" }}
+          >
+            <a>️‍🔥ドキドキ 漫画部!!! ❤️‍🔥</a>
+          </Link>
         </Typography>
 
         {isAuthenticated ? (

@@ -20,8 +20,9 @@ export interface PostCreateAnimeDto {
   title: string;
   thumbnail: string;
   description: string;
-  tag: string;
   source: AnimeSource;
+  crew: string;
+  tag?: string;
   author?: string;
 }
 
