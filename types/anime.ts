@@ -4,13 +4,25 @@ export enum AnimeSource {
   NOVEL = "novel",
 }
 
+export interface Crew {
+  id: number;
+  name: string;
+}
+
+export interface Tag {
+  id: number;
+  name: string;
+}
+
 export interface Anime {
   id: number;
   title: string;
   description: string;
-  tag: string;
   thumbnail: string;
   animeParentId: string;
   averageScore: number;
-  resource: AnimeSource;
+  source: AnimeSource;
+  tags: Tag[];
+  crew: Crew;
+  review: { id: number; content: string }[];
 }

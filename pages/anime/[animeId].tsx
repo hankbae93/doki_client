@@ -1,10 +1,8 @@
 import { NextPage } from "next";
-import { useRouter } from "next/router";
+import AnimeDetail from "@/components/anime/AnimeDetail";
 
 const AnimeDetailPage: NextPage = () => {
-  const { animeId } = useRouter().query;
-
-  return <div>{animeId}</div>;
+  return <AnimeDetail />;
 };
 
 export default AnimeDetailPage;

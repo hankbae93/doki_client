@@ -16,8 +16,12 @@ import useMount from "@/hooks/useMount";
 import { postCreateAnime, PostCreateAnimeDto } from "@/api/anime";
 import { toast } from "react-toastify";
 import { uploadImage } from "@/api/common";
+import CreateAnimeTag from "@/components/create/CreateAnimeTag";
+import { useRouter } from "next/router";
+import { RoutePath } from "@/constants/route";
 
 const CreateAnimeForm = () => {
+  const { push } = useRouter();
   const { isMount } = useMount();
   const [file, setFile] = useState<File | null>(null);
   const [source, setSource] = useState(AnimeSource.ORIGINAL);
@@ -36,26 +40,19 @@ const CreateAnimeForm = () => {
 
   const isLoading = false;
 
-  const getCreateAnimeBody = (formData: FormData) => {
-    const data = Array.from(formData.entries()).reduce((acc, [k, v]) => {
-      // @ts-ignore
-      acc[k] = v;
-      return acc;
-    }, {});
-
-    return {
-      ...data,
-      source,
-    };
-  };
-
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     if (!file) return;
     const formData = new FormData(e.currentTarget);
     const data = Array.from(formData.entries()).reduce((acc, [k, v]) => {
-      // @ts-ignore
-      acc[k] = v;
+      if (k === "tags") {
+        // @ts-ignore
+        acc[k] = JSON.parse(v as string).map((item: any) => item.value);
+      } else {
+        // @ts-ignore
+        acc[k] = v;
+      }
+
       return acc;
     }, {});
 
@@ -65,7 +62,7 @@ const CreateAnimeForm = () => {
         { thumbnail, source },
         data,
       ) as PostCreateAnimeDto;
-      console.log(body);
+
       await postCreateAnime(body);
 
       toast.success("애니메이션 등록이 완료되셨습니다.", {
@@ -76,6 +73,7 @@ const CreateAnimeForm = () => {
         draggable: true,
         theme: "light",
       });
+      push(RoutePath.HOME);
     } catch (error: any) {
       console.error(error);
       toast.error(error.message, {
@@ -154,14 +152,15 @@ const CreateAnimeForm = () => {
         </Grid>
 
         <Grid item xs={12}>
-          <TextField
-            fullWidth
-            name="tag"
-            label="장르, 태그"
-            type="tag"
-            id="tag"
-            autoComplete="장르, 태그"
-          />
+          <CreateAnimeTag />
+          {/*<TextField*/}
+          {/*  fullWidth*/}
+          {/*  name="tag"*/}
+          {/*  label="장르, 태그"*/}
+          {/*  type="tag"*/}
+          {/*  id="tag"*/}
+          {/*  autoComplete="장르, 태그"*/}
+          {/*/>*/}
         </Grid>
 
         <Grid item xs={12}>

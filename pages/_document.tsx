@@ -1,5 +1,5 @@
 import * as React from "react";
-import Document, { Html, Head, Main, NextScript } from "next/document";
+import Document, { Head, Html, Main, NextScript } from "next/document";
 
 import { createEmotionCache } from "@/provider/MUIProvider";
 import createEmotionServer from "@emotion/server/create-instance";
@@ -12,6 +12,11 @@ export default class MyDocument extends Document {
           <link
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+          />
+          <link
+            href="https://unpkg.com/@yaireo/tagify/dist/tagify.css"
+            rel="stylesheet"
+            type="text/css"
           />
         </Head>
         <body>

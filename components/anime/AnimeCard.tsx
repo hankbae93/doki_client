@@ -5,18 +5,19 @@ import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DefaultImg from "@/assets/default_img.png";
 import { Link } from "@mui/material";
+import { BookmarkAdd } from "@mui/icons-material";
 
 export interface AnimeCardProps {
   title: string;
-  tag: string;
+  tag?: string;
   description: string;
   thumbnail?: string;
   href?: string;
+  onScrap?: () => void;
 }
 
 const AnimeCard = ({
@@ -25,6 +26,7 @@ const AnimeCard = ({
   description,
   thumbnail,
   href,
+  onScrap,
 }: AnimeCardProps) => {
   return (
     <Card sx={{ maxWidth: 345 }}>
@@ -55,9 +57,10 @@ const AnimeCard = ({
       </CardContent>
 
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
+        <IconButton aria-label="add to favorites" onClick={onScrap}>
+          <BookmarkAdd />
         </IconButton>
+
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>
