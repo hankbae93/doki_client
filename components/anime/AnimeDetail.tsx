@@ -1,33 +1,21 @@
-import { useRouter } from "next/router";
 import {
   Box,
   Chip,
-  Divider,
   Grid,
   LinearProgress,
-  List,
-  ListItem,
-  ListItemText,
   Rating,
   Typography,
 } from "@mui/material";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { QueryKey } from "@/constants/query-key";
-import { getAnime } from "@/api/anime";
+import { useMutation } from "@tanstack/react-query";
 import IconButton from "@mui/material/IconButton";
 import { BookmarkAdd } from "@mui/icons-material";
 import { scrapAnime } from "@/api/scrap";
-import React, { Fragment } from "react";
-import AnimeReviewForm from "@/components/anime/AnimeReviewForm";
+import React from "react";
+import AnimeDetailReview from "@/components/anime/AnimeDetailReview";
+import useAnimeQuery from "@/hooks/useAnimeQuery";
 
 const AnimeDetail = () => {
-  const { query } = useRouter();
-  const animeId = +(query.animeId as string);
-  const { data: anime, isLoading } = useQuery(
-    [QueryKey.FETCH_ANIME, animeId],
-    () => getAnime(animeId),
-    { enabled: !!animeId },
-  );
+  const { anime, isLoading, animeId } = useAnimeQuery();
   const { mutateAsync: scrapAnimeById } = useMutation(scrapAnime);
 
   if (isLoading || !anime) return <LinearProgress />;
@@ -106,21 +94,7 @@ const AnimeDetail = () => {
         </Grid>
       </Grid>
 
-      <AnimeReviewForm />
-
-      <List>
-        {[
-          { content: "안녕", id: 0 },
-          { content: "안녕2", id: 1 },
-        ].map((review, index) => (
-          <Fragment key={review.id}>
-            <ListItem>
-              <ListItemText primary={review.content} />
-            </ListItem>
-            <Divider />
-          </Fragment>
-        ))}
-      </List>
+      <AnimeDetailReview />
     </Box>
   );
 };

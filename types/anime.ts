@@ -1,3 +1,5 @@
+import { Review } from "@/types/review";
+
 export enum AnimeSource {
   ORIGINAL = "original",
   MANGA = "manga",
@@ -24,5 +26,5 @@ export interface Anime {
   source: AnimeSource;
   tags: Tag[];
   crew: Crew;
-  review: { id: number; content: string }[];
+  reviews: Review[];
 }
