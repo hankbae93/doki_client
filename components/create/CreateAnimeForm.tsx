@@ -13,12 +13,15 @@ import {
 import { AnimeSource } from "@/types/anime";
 import React, { ChangeEventHandler, FormEventHandler, useState } from "react";
 import useMount from "@/hooks/useMount";
-import { postCreateAnime, PostCreateAnimeDto } from "@/api/anime";
+
 import { toast } from "react-toastify";
-import { uploadImage } from "@/api/common";
+
 import CreateAnimeTag from "@/components/create/CreateAnimeTag";
 import { useRouter } from "next/router";
 import { RoutePath } from "@/constants/route";
+import { uploadImage } from "@/api/common/common.api";
+import { FetchCreateAnimeDto } from "@/api/anime/anime.dto";
+import { fetchCreateAnime } from "@/api/anime/anime.api";
 
 const CreateAnimeForm = () => {
   const { push } = useRouter();
@@ -61,9 +64,9 @@ const CreateAnimeForm = () => {
       const body = Object.assign(
         { thumbnail, source },
         data,
-      ) as PostCreateAnimeDto;
+      ) as FetchCreateAnimeDto;
 
-      await postCreateAnime(body);
+      await fetchCreateAnime(body);
 
       toast.success("애니메이션 등록이 완료되셨습니다.", {
         position: "top-right",

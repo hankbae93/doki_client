@@ -7,39 +7,41 @@ import {
   Typography,
 } from "@mui/material";
 import { pink } from "@mui/material/colors";
-
-import { useMutation } from "@tanstack/react-query";
 import IconButton from "@mui/material/IconButton";
 import { BookmarkAdd, BookmarkRemove } from "@mui/icons-material";
-import { removeScrapAnime, scrapAnime } from "@/api/scrap";
+
 import React, { useEffect, useState } from "react";
 import AnimeDetailReview from "@/components/anime/AnimeDetailReview";
 import useAnimeQuery from "@/hooks/useAnimeQuery";
 import { useUserStore } from "@/atoms/user";
+import {
+  fetchRemoveScrappedAnime,
+  fetchScrapAnime,
+} from "@/api/scrap/scrap.api";
 
 const AnimeDetail = () => {
   const { user } = useUserStore();
-  const { anime, isLoading, animeId } = useAnimeQuery();
-  const { mutateAsync: scrapAnimeById } = useMutation(scrapAnime);
-  const [isMyAnime, setIsMyAnime] = useState(user?.id === anime?.user.id);
+  const { data, isLoading, animeId } = useAnimeQuery();
+  const [isMyAnime, setIsMyAnime] = useState(false);
+  const [isScrap, setIsScrap] = useState(false);
 
   useEffect(() => {
-    if (user?.id && anime?.user?.id) {
-      setIsMyAnime(user?.id === anime?.user.id);
+    if (user?.id && data?.user?.id) {
+      setIsMyAnime(user?.id === data?.user?.id);
     }
-  }, [user?.id, anime?.user?.id]);
+  }, [user?.id, data?.user?.id]);
 
   const handleScrap = async () => {
     if (isMyAnime) {
-      await scrapAnimeById(animeId);
+      await fetchScrapAnime(animeId);
     } else {
-      await removeScrapAnime(animeId);
+      await fetchRemoveScrappedAnime(animeId);
     }
 
     setIsMyAnime(!isMyAnime);
   };
 
-  if (isLoading || !anime) return <LinearProgress />;
+  if (isLoading || !data) return <LinearProgress />;
 
   return (
     <Box
@@ -62,7 +64,7 @@ const AnimeDetail = () => {
             },
           }}
         >
-          <img src={anime.thumbnail} alt={anime.title} />
+          <img src={data.anime.thumbnail} alt={data.anime.title} />
         </Grid>
         <Grid item xs={8}>
           <Box
@@ -73,7 +75,17 @@ const AnimeDetail = () => {
               pb: 2,
             }}
           >
-            <Typography variant="h3">{anime.title}</Typography>
+            <Typography variant="h3">{data.anime.title}</Typography>
+
+            {
+              <IconButton aria-label="add to favorites" onClick={handleScrap}>
+                {isMyAnime ? (
+                  <BookmarkRemove sx={{ color: pink[500] }} />
+                ) : (
+                  <BookmarkAdd />
+                )}
+              </IconButton>
+            }
 
             <IconButton aria-label="add to favorites" onClick={handleScrap}>
               {isMyAnime ? (
@@ -86,17 +98,17 @@ const AnimeDetail = () => {
 
           <Box sx={{ display: "flex", gap: 2, pb: 1 }}>
             <Typography variant="caption" color="text.secondary">
-              제작진: {anime.crew.name}
+              제작진: {data.anime.crew.name}
             </Typography>
             <Typography variant="caption" color="text.secondary">
-              원작: {anime.source}
+              원작: {data.anime.source}
             </Typography>
           </Box>
 
           <Box sx={{ display: "flex", alignItems: "center", gap: 1, pb: 4 }}>
-            <Rating name="read-only" value={anime.averageScore} readOnly />
+            <Rating name="read-only" value={data.anime.averageScore} readOnly />
             <Typography variant="body2" color="text.secondary">
-              평점: {anime.averageScore}
+              평점: {data.anime.averageScore}
             </Typography>
           </Box>
           <Box>
@@ -104,12 +116,12 @@ const AnimeDetail = () => {
               variant="body1"
               sx={{ whiteSpace: "pre-wrap", height: 200 }}
             >
-              {anime.description}
+              {data.anime.description}
             </Typography>
           </Box>
 
           <Box sx={{ display: "flex", gap: 1 }}>
-            {anime.tags.map((tag) => {
+            {data.anime.tags.map((tag) => {
               return <Chip key={tag.id} label={tag.name} />;
             })}
           </Box>

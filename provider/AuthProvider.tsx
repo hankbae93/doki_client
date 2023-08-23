@@ -1,8 +1,6 @@
-
-
 import { ReactNode, useEffect } from "react";
 import { useUserStore } from "@/atoms/user";
-import api from "@/api/api";
+import api from "@/api";
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const { isAuthenticated, user } = useUserStore();

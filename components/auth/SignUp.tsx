@@ -2,14 +2,14 @@ import React, { FormEventHandler } from "react";
 import { Box, Button, Grid, Link, TextField, Typography } from "@mui/material";
 import { RoutePath } from "@/constants/route";
 import { useMutation } from "@tanstack/react-query";
-import { signUp } from "@/api/auth";
 
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import { fetchSignUp } from "@/api/user/user.api";
 
 const SignUp = () => {
   const { push } = useRouter();
-  const { isLoading, mutateAsync } = useMutation(signUp);
+  const { isLoading, mutateAsync } = useMutation(fetchSignUp);
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();

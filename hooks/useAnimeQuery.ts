@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { QueryKey } from "@/constants/query-key";
-import { getAnime } from "@/api/anime";
 import { Review } from "@/types/review";
+import { fetchGetAnimeDetail } from "@/api/anime/anime.api";
 
 const useAnimeQuery = () => {
   const { query } = useRouter();
@@ -10,29 +10,29 @@ const useAnimeQuery = () => {
   const queryClient = useQueryClient();
   const queryKey = [QueryKey.FETCH_ANIME, animeId];
 
-  const {
-    data: anime,
-    isLoading,
-    refetch,
-  } = useQuery(queryKey, () => getAnime(animeId), {
-    enabled: !!animeId,
-  });
+  const { data, isLoading, refetch } = useQuery(
+    queryKey,
+    () => fetchGetAnimeDetail(animeId),
+    {
+      enabled: !!animeId,
+    },
+  );
 
   const updateAnimeByReviewCreated = async (
     review: Review,
     averageScore: number,
   ) => {
-    if (!anime) return;
+    if (!data) return;
 
     await queryClient.setQueryData(queryKey, {
-      ...anime,
+      ...data,
       averageScore,
-      reviews: anime.reviews.concat(review),
+      reviews: data.reviews.concat(review),
     });
   };
 
   return {
-    anime,
+    data,
     isLoading,
     animeId,
     refetch,

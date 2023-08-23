@@ -1,15 +1,14 @@
 import React from "react";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { QueryKey } from "@/constants/query-key";
-import { getAnimeList } from "@/api/anime";
 import AnimeCard from "@/components/anime/AnimeCard";
 import { Box, Grid } from "@mui/material";
 import { RoutePath } from "@/constants/route";
-import { scrapAnime } from "@/api/scrap";
+import { fetchGetAnimeList } from "@/api/anime/anime.api";
+import { fetchScrapAnime } from "@/api/scrap/scrap.api";
 
 const AnimeList = () => {
-  const { data } = useQuery([QueryKey.FETCH_ANIME_LIST], getAnimeList);
-  const { mutateAsync: scrapAnimeById } = useMutation(scrapAnime);
+  const { data } = useQuery([QueryKey.FETCH_ANIME_LIST], fetchGetAnimeList);
 
   return (
     <Box sx={{ m: "auto", maxWidth: 1024 }}>
@@ -22,7 +21,7 @@ const AnimeList = () => {
                 description={anime.description}
                 thumbnail={anime.thumbnail}
                 href={`${RoutePath.ANIME}/${anime.id}`}
-                onScrap={() => scrapAnimeById(anime.id)}
+                onScrap={() => fetchScrapAnime(anime.id)}
               />
             </Grid>
           );

@@ -1,5 +1,5 @@
-import api from "@/api/api";
-import * as process from "process";
+import api from "@/api";
+import process from "process";
 
 export const uploadImage = async (image: File) => {
   const formData = new FormData();

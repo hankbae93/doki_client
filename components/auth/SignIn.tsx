@@ -2,12 +2,12 @@ import { Box, Button, Link, Stack, TextField, Typography } from "@mui/material";
 import { ChangeEventHandler, FormEventHandler, useState } from "react";
 import NextLink from "next/link";
 import { useMutation } from "@tanstack/react-query";
-import { signIn } from "@/api/auth";
 import { RoutePath } from "@/constants/route";
 import { toast } from "react-toastify";
 
 import { useUserStore } from "@/atoms/user";
 import { useRouter } from "next/router";
+import { fetchSignIn } from "@/api/user/user.api";
 
 const SignIn = () => {
   const { setUser } = useUserStore();
@@ -15,7 +15,7 @@ const SignIn = () => {
     email: "",
     password: "",
   });
-  const { isLoading, mutateAsync } = useMutation(signIn);
+  const { isLoading, mutateAsync } = useMutation(fetchSignIn);
   const { push } = useRouter();
 
   const onChangeInput: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -29,9 +29,7 @@ const SignIn = () => {
 
     try {
       const {
-        data: {
-          data: { accessToken, user },
-        },
+        data: { accessToken, user },
       } = await mutateAsync(signInState);
 
       setUser({ accessToken, ...user });

@@ -6,38 +6,36 @@ import CardActions from "@mui/material/CardActions";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import useAnimeQuery from "@/hooks/useAnimeQuery";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import {
-  getMyReview,
-  postCreateReview,
-  postUpdateMyReview,
-} from "@/api/review";
+import { useQuery } from "@tanstack/react-query";
+
 import { QueryKey } from "@/constants/query-key";
 import AnimeDetailReviewList from "@/components/anime/AnimeDetailReviewList";
+import {
+  fetchCreateReview,
+  fetchGetMyReview,
+  fetchUpdateMyReview,
+} from "@/api/review/review.api";
 
 const AnimeDetailReview = () => {
   const [content, setContent] = useState("");
   const [score, setScore] = useState(0);
   const [value, setValue] = React.useState(0);
-  const { animeId, updateAnimeByReviewCreated, anime } = useAnimeQuery();
+  const { animeId, updateAnimeByReviewCreated } = useAnimeQuery();
   const { data: myReview } = useQuery(
-    [QueryKey.FETCH_MY_REVIEW, animeId],
-    () => getMyReview(animeId),
+    [QueryKey.FETCH_GET_MY_REVIEW, animeId],
+    () => fetchGetMyReview(animeId),
     {
       enabled: !!animeId,
       retry: 1,
     },
   );
 
-  const { mutateAsync: mutateCreateReview } = useMutation(postCreateReview);
-  const { mutateAsync: mutateUpdateReview } = useMutation(postUpdateMyReview);
-
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(+newValue);
   };
 
   const createReview = async () => {
-    const { review, averageScore } = await mutateCreateReview({
+    const { review, averageScore } = await fetchCreateReview({
       animeId,
       score,
       content,
@@ -49,7 +47,7 @@ const AnimeDetailReview = () => {
 
   const updateReview = async () => {
     if (!myReview) return;
-    await mutateUpdateReview({
+    await fetchUpdateMyReview({
       content,
       score,
       id: myReview.id,

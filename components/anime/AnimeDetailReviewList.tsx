@@ -3,11 +3,11 @@ import useAnimeQuery from "@/hooks/useAnimeQuery";
 import { Avatar, Divider, Grid, List, Rating } from "@mui/material";
 
 const AnimeDetailReviewList = () => {
-  const { anime } = useAnimeQuery();
+  const { data } = useAnimeQuery();
 
   return (
     <List>
-      {anime?.reviews.map((review) => {
+      {data?.anime.reviews.map((review) => {
         return (
           <Fragment key={review.id}>
             <Grid container wrap="nowrap" spacing={2}>
