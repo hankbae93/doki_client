@@ -13,3 +13,11 @@ export const getMyScraps = async () => {
 
   return data.data;
 };
+
+export const removeScrapAnime = async (animeId: number) => {
+  const { data } = await api.post<APIResponse<null>>(
+    `/scrap/remove/${animeId}`,
+  );
+
+  return data;
+};

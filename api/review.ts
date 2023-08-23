@@ -2,6 +2,19 @@ import api from "@/api/api";
 import { APIResponse } from "@/types/common";
 import { Review } from "@/types/review";
 
+export const getMyReview = async (animeId: number) => {
+  const { data } = await api.get<APIResponse<Review | null>>(
+    `/review/anime/my/${animeId}`,
+  );
+  return data.data;
+};
+
+export const getReviewsByAnime = async (animeId: number) => {
+  const { data } = await api.get<APIResponse<Review[]>>(`/anime/${animeId}`);
+
+  return data.data;
+};
+
 export interface PostCreateReviewDto {
   animeId: number;
   content: string;
@@ -15,13 +28,6 @@ export const postCreateReview = async ({
     APIResponse<{ review: Review; averageScore: number }>
   >(`/review/anime/${animeId}`, body);
 
-  return data.data;
-};
-
-export const getMyReview = async (animeId: number) => {
-  const { data } = await api.get<APIResponse<Review | null>>(
-    `/review/anime/my/${animeId}`,
-  );
   return data.data;
 };
 

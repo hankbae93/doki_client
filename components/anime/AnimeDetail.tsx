@@ -6,17 +6,38 @@ import {
   Rating,
   Typography,
 } from "@mui/material";
+import { pink } from "@mui/material/colors";
+
 import { useMutation } from "@tanstack/react-query";
 import IconButton from "@mui/material/IconButton";
-import { BookmarkAdd } from "@mui/icons-material";
-import { scrapAnime } from "@/api/scrap";
-import React from "react";
+import { BookmarkAdd, BookmarkRemove } from "@mui/icons-material";
+import { removeScrapAnime, scrapAnime } from "@/api/scrap";
+import React, { useEffect, useState } from "react";
 import AnimeDetailReview from "@/components/anime/AnimeDetailReview";
 import useAnimeQuery from "@/hooks/useAnimeQuery";
+import { useUserStore } from "@/atoms/user";
 
 const AnimeDetail = () => {
+  const { user } = useUserStore();
   const { anime, isLoading, animeId } = useAnimeQuery();
   const { mutateAsync: scrapAnimeById } = useMutation(scrapAnime);
+  const [isMyAnime, setIsMyAnime] = useState(user?.id === anime?.user.id);
+
+  useEffect(() => {
+    if (user?.id && anime?.user?.id) {
+      setIsMyAnime(user?.id === anime?.user.id);
+    }
+  }, [user?.id, anime?.user?.id]);
+
+  const handleScrap = async () => {
+    if (isMyAnime) {
+      await scrapAnimeById(animeId);
+    } else {
+      await removeScrapAnime(animeId);
+    }
+
+    setIsMyAnime(!isMyAnime);
+  };
 
   if (isLoading || !anime) return <LinearProgress />;
 
@@ -52,13 +73,14 @@ const AnimeDetail = () => {
               pb: 2,
             }}
           >
-            <Typography variant="h1">{anime.title}</Typography>
+            <Typography variant="h3">{anime.title}</Typography>
 
-            <IconButton
-              aria-label="add to favorites"
-              onClick={() => scrapAnimeById(animeId)}
-            >
-              <BookmarkAdd />
+            <IconButton aria-label="add to favorites" onClick={handleScrap}>
+              {isMyAnime ? (
+                <BookmarkRemove sx={{ color: pink[500] }} />
+              ) : (
+                <BookmarkAdd />
+              )}
             </IconButton>
           </Box>
 

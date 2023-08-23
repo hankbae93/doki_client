@@ -1,9 +1,11 @@
 import api from "@/api/api";
 import { APIResponse } from "@/types/common";
-import { Anime, AnimeSource } from "@/types/anime";
+import { Anime, AnimeSource, AnimeWithUser } from "@/types/anime";
 
 export const getAnime = async (animeId: number) => {
-  const { data } = await api.get<APIResponse<Anime>>(`/anime/${animeId}`);
+  const { data } = await api.get<APIResponse<AnimeWithUser>>(
+    `/anime/${animeId}`,
+  );
 
   return data.data;
 };
