@@ -17,6 +17,7 @@ const ReactQueryProvider = ({
         queries: {
           refetchOnWindowFocus: false,
           refetchOnReconnect: false,
+          retry: 1,
         },
       },
     });

@@ -12,9 +12,9 @@ const baseTagifySettings = {
   },
 };
 
-const CrazyTags = () => {
+const CreateAnimeTag = ({ defaultValue = [] }: { defaultValue?: string[] }) => {
   const tagifyRef = useRef<any>();
-  const [tagifySettings, setTagifySettings] = useState([]);
+  const [tagifySettings, setTagifySettings] = useState(defaultValue);
   const [tagifyProps, setTagifyProps] = useState({});
 
   // on component mount
@@ -44,6 +44,7 @@ const CrazyTags = () => {
       </Button>
       <Tags
         name="tags"
+        value={defaultValue.join(",")}
         tagifyRef={tagifyRef}
         settings={settings}
         autoFocus={true}
@@ -53,4 +54,4 @@ const CrazyTags = () => {
   );
 };
 
-export default CrazyTags;
+export default CreateAnimeTag;

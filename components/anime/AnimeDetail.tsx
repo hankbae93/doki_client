@@ -14,22 +14,19 @@ import React, { useEffect, useState } from "react";
 import AnimeDetailReview from "@/components/anime/AnimeDetailReview";
 import useAnimeQuery from "@/hooks/useAnimeQuery";
 import { useUserStore } from "@/atoms/user";
+import EditIcon from "@mui/icons-material/Edit";
 import {
   fetchRemoveScrappedAnime,
   fetchScrapAnime,
 } from "@/api/scrap/scrap.api";
+import { useRouter } from "next/router";
 
 const AnimeDetail = () => {
   const { user } = useUserStore();
-  const { data, isLoading, animeId } = useAnimeQuery();
   const [isMyAnime, setIsMyAnime] = useState(false);
   const [isScrap, setIsScrap] = useState(false);
-
-  useEffect(() => {
-    if (user?.id && data?.user?.id) {
-      setIsMyAnime(user?.id === data?.user?.id);
-    }
-  }, [user?.id, data?.user?.id]);
+  const { push } = useRouter();
+  const { data, isLoading, animeId } = useAnimeQuery();
 
   const handleScrap = async () => {
     if (isMyAnime) {
@@ -38,8 +35,18 @@ const AnimeDetail = () => {
       await fetchRemoveScrappedAnime(animeId);
     }
 
-    setIsMyAnime(!isMyAnime);
+    setIsScrap((prev) => !prev);
   };
+
+  useEffect(() => {
+    if (user?.id && data?.anime.user.id) {
+      setIsMyAnime(user?.id === data?.anime.user.id);
+    }
+  }, [user?.id, data?.anime.user.id]);
+
+  useEffect(() => {
+    setIsScrap(!!data?.scrap);
+  }, [data?.scrap]);
 
   if (isLoading || !data) return <LinearProgress />;
 
@@ -77,18 +84,17 @@ const AnimeDetail = () => {
           >
             <Typography variant="h3">{data.anime.title}</Typography>
 
-            {
-              <IconButton aria-label="add to favorites" onClick={handleScrap}>
-                {isMyAnime ? (
-                  <BookmarkRemove sx={{ color: pink[500] }} />
-                ) : (
-                  <BookmarkAdd />
-                )}
+            {isMyAnime && (
+              <IconButton
+                aria-label="add to favorites"
+                onClick={() => push(`/anime/${animeId}/edit`)}
+              >
+                <EditIcon />
               </IconButton>
-            }
+            )}
 
             <IconButton aria-label="add to favorites" onClick={handleScrap}>
-              {isMyAnime ? (
+              {!!user && isScrap ? (
                 <BookmarkRemove sx={{ color: pink[500] }} />
               ) : (
                 <BookmarkAdd />

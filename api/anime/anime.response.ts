@@ -2,11 +2,16 @@ import { APIResponse } from "@/types/common";
 import { Anime } from "@/types/anime";
 import { User } from "@/types/user";
 import { Review } from "@/types/review";
+import { Scrap } from "@/types/scrap";
+
+interface AnimeWithUser extends Anime {
+  user: User;
+}
 
 interface GetAnimeDetailResponse {
-  anime: Anime;
-  user: User;
+  anime: AnimeWithUser;
   reviews: Review[];
+  scrap: Scrap;
 }
 
 export type FetchGetAnimeDetailResponse = APIResponse<GetAnimeDetailResponse>;

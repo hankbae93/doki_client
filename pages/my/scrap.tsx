@@ -1,13 +1,13 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { QueryKey } from "@/constants/query-key";
-import { getMyScrapList } from "@/api/scrap";
 import AnimeCard from "@/components/anime/AnimeCard";
 import { RoutePath } from "@/constants/route";
 import { Box, Grid } from "@mui/material";
+import { fetchGetMyScrapList } from "@/api/scrap/scrap.api";
 
 const ScrapPage = () => {
-  const { data } = useQuery([QueryKey.FETCH_MY_SCRAPS], getMyScrapList);
+  const { data } = useQuery([QueryKey.FETCH_MY_SCRAPS], fetchGetMyScrapList);
 
   return (
     <Box sx={{ m: "auto", maxWidth: 1024 }}>

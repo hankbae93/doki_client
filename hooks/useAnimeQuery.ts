@@ -27,7 +27,7 @@ const useAnimeQuery = () => {
     await queryClient.setQueryData(queryKey, {
       ...data,
       averageScore,
-      reviews: data.reviews.concat(review),
+      reviews: data.reviews ? data.reviews.concat(review) : [review],
     });
   };
 
