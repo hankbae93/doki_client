@@ -6,6 +6,12 @@ export enum AnimeSource {
   NOVEL = "novel",
 }
 
+export enum AnimeOrder {
+  RECENT = "recent",
+  TREND = "trend",
+  OLD = "old",
+}
+
 export interface Crew {
   id: number;
   name: string;

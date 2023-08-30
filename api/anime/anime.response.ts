@@ -16,8 +16,12 @@ interface GetAnimeDetailResponse {
 
 export type FetchGetAnimeDetailResponse = APIResponse<GetAnimeDetailResponse>;
 
+interface AnimeWithReviewCount extends Anime {
+  reviewCount: number;
+}
+
 interface GetAnimeListResponse {
-  animes: Anime[];
+  animes: AnimeWithReviewCount[];
   total: number;
 }
 

@@ -6,6 +6,7 @@ import {
 } from "@/api/anime/anime.response";
 import {
   FetchCreateAnimeDto,
+  FetchGetAnimeListDto,
   FetchUpdateAnimeDto,
 } from "@/api/anime/anime.dto";
 
@@ -17,8 +18,14 @@ export const fetchGetAnimeDetail = async (animeId: number) => {
   return data.data;
 };
 
-export const fetchGetAnimeList = async () => {
-  const { data } = await api.get<FetchGetAnimeListResponse>(`/anime`);
+export const fetchGetAnimeList = async (params: FetchGetAnimeListDto) => {
+  const { data } = await api.get<FetchGetAnimeListResponse>(`/anime`, {
+    params: {
+      ...params,
+      page: params.page || 1,
+      limit: 10,
+    },
+  });
 
   return data.data;
 };

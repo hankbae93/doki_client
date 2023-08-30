@@ -8,16 +8,20 @@ import Typography from "@mui/material/Typography";
 import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DefaultImg from "@/assets/default_img.png";
-import { Link } from "@mui/material";
+import { Box, Link } from "@mui/material";
 import { BookmarkAdd } from "@mui/icons-material";
+import { AnimeSource } from "@/types/anime";
+import React from "react";
 
 export interface AnimeCardProps {
   title: string;
   tag?: string;
   description: string;
+  source: AnimeSource;
   thumbnail?: string;
   href?: string;
   onScrap?: () => void;
+  reviewCount?: number;
 }
 
 const AnimeCard = ({
@@ -26,10 +30,12 @@ const AnimeCard = ({
   description,
   thumbnail,
   href,
+  source,
   onScrap,
+  reviewCount,
 }: AnimeCardProps) => {
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345, height: "100%" }}>
       <CardHeader
         action={
           <IconButton aria-label="settings">
@@ -51,12 +57,22 @@ const AnimeCard = ({
       </Link>
 
       <CardContent>
+        <Box>
+          <Typography variant="caption" color="text.secondary">
+            리뷰 개수: {reviewCount}
+          </Typography>
+        </Box>
+
+        <Typography variant="caption" color="text.secondary">
+          원작: {source}
+        </Typography>
+
         <Typography variant="body2" color="text.secondary">
           {description || "소개글이 없습니다."}
         </Typography>
       </CardContent>
 
-      <CardActions disableSpacing>
+      <CardActions disableSpacing sx={{ margin: "auto 0 0" }}>
         <IconButton aria-label="add to favorites" onClick={onScrap}>
           <BookmarkAdd />
         </IconButton>

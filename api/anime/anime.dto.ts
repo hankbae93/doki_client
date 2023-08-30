@@ -1,4 +1,4 @@
-import { AnimeSource } from "@/types/anime";
+import { AnimeOrder, AnimeSource } from "@/types/anime";
 
 export interface FetchCreateAnimeDto {
   title: string;
@@ -19,4 +19,11 @@ export interface FetchUpdateAnimeDto {
   crew: string;
   tag?: string;
   author?: string;
+}
+
+export interface FetchGetAnimeListDto {
+  source?: AnimeSource;
+  title?: string;
+  page?: number;
+  order?: AnimeOrder;
 }
