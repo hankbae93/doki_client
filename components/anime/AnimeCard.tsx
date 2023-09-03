@@ -9,9 +9,15 @@ import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DefaultImg from "@/assets/default_img.png";
 import { Box, Link } from "@mui/material";
-import { BookmarkAdd } from "@mui/icons-material";
+import { BookmarkAdd, BookmarkRemove } from "@mui/icons-material";
 import { AnimeSource } from "@/types/anime";
-import React from "react";
+import React, { useState } from "react";
+import { useUserStore } from "@/atoms/user";
+import { pink } from "@mui/material/colors";
+import {
+  fetchRemoveScrappedAnime,
+  fetchScrapAnime,
+} from "@/api/scrap/scrap.api";
 
 export interface AnimeCardProps {
   title: string;
@@ -22,6 +28,8 @@ export interface AnimeCardProps {
   href?: string;
   onScrap?: () => void;
   reviewCount?: number;
+  isScrapped?: boolean;
+  id: number;
 }
 
 const AnimeCard = ({
@@ -33,7 +41,22 @@ const AnimeCard = ({
   source,
   onScrap,
   reviewCount,
+  isScrapped,
+  id,
 }: AnimeCardProps) => {
+  const { user } = useUserStore();
+  const [isScrap, setIsScrap] = useState(isScrapped);
+  const handleScrap = async () => {
+    if (!user) return;
+    if (isScrap) {
+      await fetchRemoveScrappedAnime(id);
+    } else {
+      await fetchScrapAnime(id);
+    }
+
+    setIsScrap((prev) => !prev);
+  };
+
   return (
     <Card sx={{ maxWidth: 345, height: "100%" }}>
       <CardHeader
@@ -73,8 +96,12 @@ const AnimeCard = ({
       </CardContent>
 
       <CardActions disableSpacing sx={{ margin: "auto 0 0" }}>
-        <IconButton aria-label="add to favorites" onClick={onScrap}>
-          <BookmarkAdd />
+        <IconButton aria-label="add to favorites" onClick={handleScrap}>
+          {!!user && isScrap ? (
+            <BookmarkRemove sx={{ color: pink[500] }} />
+          ) : (
+            <BookmarkAdd />
+          )}
         </IconButton>
 
         <IconButton aria-label="share">

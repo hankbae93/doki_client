@@ -16,12 +16,13 @@ interface GetAnimeDetailResponse {
 
 export type FetchGetAnimeDetailResponse = APIResponse<GetAnimeDetailResponse>;
 
-interface AnimeWithReviewCount extends Anime {
+interface AnimeListItem extends Anime {
   reviewCount: number;
+  isScrapped: number;
 }
 
 interface GetAnimeListResponse {
-  animes: AnimeWithReviewCount[];
+  animes: AnimeListItem[];
   total: number;
 }
 

@@ -30,6 +30,18 @@ export const fetchGetAnimeList = async (params: FetchGetAnimeListDto) => {
   return data.data;
 };
 
+export const fetchGetAnimeListByUser = async (params: FetchGetAnimeListDto) => {
+  const { data } = await api.get<FetchGetAnimeListResponse>(`/anime/auth`, {
+    params: {
+      ...params,
+      page: params.page || 1,
+      limit: 10,
+    },
+  });
+
+  return data.data;
+};
+
 export const fetchCreateAnime = async (body: FetchCreateAnimeDto) => {
   const { data } = await api.post<FetchCreateAnimeResponse>("/anime", body);
   return data;

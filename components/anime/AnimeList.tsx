@@ -4,27 +4,44 @@ import { QueryKey } from "@/constants/query-key";
 import AnimeCard from "@/components/anime/AnimeCard";
 import { Autocomplete, Box, Grid, TextField } from "@mui/material";
 import { RoutePath } from "@/constants/route";
-import { fetchGetAnimeList } from "@/api/anime/anime.api";
+import {
+  fetchGetAnimeList,
+  fetchGetAnimeListByUser,
+} from "@/api/anime/anime.api";
 import { fetchScrapAnime } from "@/api/scrap/scrap.api";
 import { AnimeOrder, AnimeSource } from "@/types/anime";
+import { useUserStore } from "@/atoms/user";
 
 const AnimeList = () => {
+  const { user } = useUserStore();
   const [filter, setFilter] = useState({
     source: "",
     order: "",
     title: "",
   });
+  console.log(user);
   const { data } = useQuery(
-    [QueryKey.FETCH_ANIME_LIST, filter.order, filter.source, filter.title],
+    [
+      QueryKey.FETCH_ANIME_LIST,
+      filter.order,
+      filter.source,
+      filter.title,
+      user?.id,
+    ],
     () =>
-      fetchGetAnimeList({
-        order: !filter.order ? undefined : (filter.order as AnimeOrder),
-        source: !filter.source ? undefined : (filter.source as AnimeSource),
-        title: !filter.title ? undefined : filter.title,
-      }),
+      user?.id
+        ? fetchGetAnimeListByUser({
+            order: !filter.order ? undefined : (filter.order as AnimeOrder),
+            source: !filter.source ? undefined : (filter.source as AnimeSource),
+            title: !filter.title ? undefined : filter.title,
+          })
+        : fetchGetAnimeList({
+            order: !filter.order ? undefined : (filter.order as AnimeOrder),
+            source: !filter.source ? undefined : (filter.source as AnimeSource),
+            title: !filter.title ? undefined : filter.title,
+          }),
   );
 
-  console.log(filter);
   return (
     <Box sx={{ m: "auto", maxWidth: 1024 }}>
       <Grid container spacing={2} sx={{ py: 5 }}>
@@ -72,8 +89,10 @@ const AnimeList = () => {
               { text: "과거순", name: AnimeOrder.OLD },
             ]}
             onChange={(e, newValue) => {
-              if (!newValue) return;
-              setFilter((prev) => ({ ...prev, order: newValue.name }));
+              setFilter((prev) => ({
+                ...prev,
+                order: newValue ? newValue.name : "",
+              }));
             }}
             autoHighlight
             getOptionLabel={(option) => option.name}
@@ -126,6 +145,8 @@ const AnimeList = () => {
                 onScrap={() => fetchScrapAnime(anime.id)}
                 source={anime.source}
                 reviewCount={anime.reviewCount}
+                isScrapped={!!anime.isScrapped}
+                id={anime.id}
               />
             </Grid>
           );

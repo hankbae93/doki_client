@@ -10,6 +10,17 @@ const Header = () => {
   const { push } = useRouter();
   const { isAuthenticated, logout } = useUserStore();
 
+  const links = [
+    {
+      title: "내 스크랩",
+      url: RoutePath.MY_SCRAP,
+    },
+    {
+      title: "애니메이션 탐색",
+      url: RoutePath.ANIME,
+    },
+  ];
+
   if (!isMount) return <></>;
   return (
     <>
@@ -58,11 +69,28 @@ const Header = () => {
           </>
         )}
       </Toolbar>
+
       <Toolbar
         component="nav"
         variant="dense"
-        sx={{ justifyContent: "space-between", overflowX: "auto" }}
-      />
+        sx={{
+          gap: 1,
+          overflowX: "auto",
+        }}
+      >
+        {links.map((section) => (
+          <Link
+            color="inherit"
+            noWrap
+            key={section.title}
+            variant="body2"
+            href={section.url}
+            sx={{ p: 1, flexShrink: 0 }}
+          >
+            {section.title}
+          </Link>
+        ))}
+      </Toolbar>
     </>
   );
 };

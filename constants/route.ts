@@ -4,4 +4,5 @@ export enum RoutePath {
   SIGN_UP = "/auth/signUp",
   ANIME = "/anime",
   ANIME_CREATE = "/anime/create",
+  MY_SCRAP = "/my/scrap",
 }

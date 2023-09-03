@@ -26,4 +26,5 @@ export interface FetchGetAnimeListDto {
   title?: string;
   page?: number;
   order?: AnimeOrder;
+  userId?: number;
 }
