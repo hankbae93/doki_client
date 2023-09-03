@@ -7,3 +7,4 @@ export interface SignInResponse {
 }
 
 export type FetchSignInResponse = APIResponse<SignInResponse>;
+export type FetchUpdateProfileResponse = APIResponse<User>;

@@ -20,6 +20,9 @@ const ScrapPage = () => {
                 description={anime.description}
                 thumbnail={anime.thumbnail}
                 href={`${RoutePath.ANIME}/${anime.id}`}
+                isScrapped={true}
+                id={anime.id}
+                source={anime.source}
               />
             </Grid>
           );

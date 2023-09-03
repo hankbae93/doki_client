@@ -19,7 +19,7 @@ const AnimeList = () => {
     order: "",
     title: "",
   });
-  console.log(user);
+
   const { data } = useQuery(
     [
       QueryKey.FETCH_ANIME_LIST,
