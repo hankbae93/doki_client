@@ -6,7 +6,11 @@ const AppLayout = ({ children }: { children: ReactNode }) => {
   return (
     <>
       <Header />
-      <Box sx={{ pt: 2, px: 3, pb: 10 }}>{children}</Box>
+      <Box
+        sx={{ pt: 2, px: 3, pb: 10, background: "#F5F5F5", minHeight: "100vh" }}
+      >
+        {children}
+      </Box>
     </>
   );
 };

@@ -50,7 +50,7 @@ const AnimeList = () => {
             onChange={(e, value) => {
               setFilter((prev) => ({ ...prev, source: value as AnimeSource }));
             }}
-            sx={{ width: "100%" }}
+            sx={{ width: "100%", background: "#fff" }}
             options={[
               AnimeSource.ORIGINAL,
               AnimeSource.NOVEL,
@@ -75,6 +75,7 @@ const AnimeList = () => {
                   ...params.inputProps,
                   autoComplete: "new-password", // disable autocomplete and autofill
                 }}
+                sx={{ background: "#fff" }}
               />
             )}
           />
@@ -109,6 +110,7 @@ const AnimeList = () => {
               <TextField
                 {...params}
                 label="order"
+                sx={{ background: "#fff" }}
                 inputProps={{
                   ...params.inputProps,
                   autoComplete: "new-password", // disable autocomplete and autofill
@@ -117,12 +119,13 @@ const AnimeList = () => {
             )}
           />
         </Grid>
-        <Grid item xs={16}>
+        <Grid item xs={8}>
           <TextField
             fullWidth
             id="title"
             label="애니메이션 제목"
             name="title"
+            sx={{ background: "#fff" }}
             autoComplete="title"
             value={filter.title}
             onChange={(e) => {

@@ -15,12 +15,13 @@ import {
   fetchGetMyReview,
   fetchUpdateMyReview,
 } from "@/api/review/review.api";
+import { toast } from "react-toastify";
 
 const AnimeDetailReview = () => {
   const [content, setContent] = useState("");
   const [score, setScore] = useState(0);
   const [value, setValue] = React.useState(0);
-  const { animeId, updateAnimeByReviewCreated } = useAnimeQuery();
+  const { animeId, updateAnimeByReviewCreated, refetch } = useAnimeQuery();
   const { data: myReview } = useQuery(
     [QueryKey.FETCH_GET_MY_REVIEW, animeId],
     () => fetchGetMyReview(animeId),
@@ -55,11 +56,24 @@ const AnimeDetailReview = () => {
   };
 
   const handleSubmit = async () => {
-    if (myReview) {
-      await updateReview();
-    } else {
-      await createReview();
-    }
+    await toast.promise(
+      async () => {
+        if (myReview) {
+          await updateReview();
+        } else {
+          await createReview();
+        }
+      },
+      {
+        pending: "Review Pending...",
+        success: "Review Updated 👌",
+        error: "Review rejected 🤯",
+      },
+      {
+        position: "bottom-center",
+      },
+    );
+    refetch();
   };
 
   useEffect(() => {

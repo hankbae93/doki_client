@@ -14,6 +14,7 @@ import { DehydratedState } from "@tanstack/query-core";
 import { ReactElement, ReactNode } from "react";
 import MUIProvider from "@/provider/MUIProvider";
 import { CacheProvider, EmotionCache } from "@emotion/react";
+import "react-toastify/dist/ReactToastify.css";
 
 import createCache from "@emotion/cache";
 

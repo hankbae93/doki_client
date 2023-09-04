@@ -5,4 +5,5 @@ export enum RoutePath {
   ANIME = "/anime",
   ANIME_CREATE = "/anime/create",
   MY_SCRAP = "/my/scrap",
+  MY_PROFILE = "/my/profile",
 }

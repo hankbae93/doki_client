@@ -19,6 +19,10 @@ const Header = () => {
       title: "애니메이션 탐색",
       url: RoutePath.ANIME,
     },
+    {
+      title: "내 정보",
+      url: RoutePath.MY_PROFILE,
+    },
   ];
 
   if (!isMount) return <></>;

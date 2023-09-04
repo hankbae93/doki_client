@@ -38,6 +38,11 @@ class CustomDocument extends Document {
         <Head>
           <Favicon />
           <Fonts />
+          <link
+            href="https://unpkg.com/@yaireo/tagify/dist/tagify.css"
+            rel="stylesheet"
+            type="text/css"
+          />
         </Head>
         <body>
           <Main />
