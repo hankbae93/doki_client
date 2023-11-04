@@ -43,8 +43,8 @@ const AnimeList = () => {
   );
 
   return (
-    <Box sx={{ m: "auto", maxWidth: 1024 }}>
-      <Grid container spacing={2} sx={{ py: 5 }}>
+    <Box>
+      <Grid container spacing={2} sx={{ pt: 5 }}>
         <Grid item xs={2}>
           <Autocomplete
             onChange={(e, value) => {
@@ -136,7 +136,7 @@ const AnimeList = () => {
         </Grid>
       </Grid>
 
-      <Grid container spacing={4} sx={{ py: 5 }}>
+      <Grid container spacing={4} sx={{ pt: 5 }}>
         {data?.animes.map((anime) => {
           return (
             <Grid item xs={4} key={anime.id}>

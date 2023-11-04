@@ -3,6 +3,8 @@ import {
   FetchCreateAnimeResponse,
   FetchGetAnimeDetailResponse,
   FetchGetAnimeListResponse,
+  FetchGetCrewDetailResponse,
+  FetchGetCrewListResponse,
 } from "@/api/anime/anime.response";
 import {
   FetchCreateAnimeDto,
@@ -57,4 +59,16 @@ export const fetchUpdateAnime = async ({
   );
 
   return data;
+};
+
+export const fetchGetCrewList = async () => {
+  const { data } = await api.get<FetchGetCrewListResponse>(`/crew`);
+
+  return data.data;
+};
+
+export const fetchGetCrewDetail = async (crewId: number) => {
+  const { data } = await api.get<FetchGetCrewDetailResponse>(`/crew/${crewId}`);
+
+  return data.data;
 };

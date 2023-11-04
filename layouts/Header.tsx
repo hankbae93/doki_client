@@ -23,6 +23,14 @@ const Header = () => {
       title: "내 정보",
       url: RoutePath.MY_PROFILE,
     },
+    {
+      title: "CREW",
+      url: RoutePath.CREW,
+    },
+    {
+      title: "SERIES",
+      url: RoutePath.SERIES,
+    },
   ];
 
   if (!isMount) return <></>;

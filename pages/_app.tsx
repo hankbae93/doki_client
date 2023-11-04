@@ -11,7 +11,7 @@ import "@fontsource/roboto/700.css";
 import AppLayout from "@/layouts/AppLayout";
 import { NextPage } from "next";
 import { DehydratedState } from "@tanstack/query-core";
-import { ReactElement, ReactNode } from "react";
+import { ReactElement, ReactNode, useMemo } from "react";
 import MUIProvider from "@/provider/MUIProvider";
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import "react-toastify/dist/ReactToastify.css";
@@ -44,12 +44,16 @@ function MyApp({
   pageProps,
   emotionCache = clientSideEmotionCache,
 }: AppPropsWithLayout) {
-  const CombineProvider = combineProviders([
-    [RecoilProvider],
-    [ReactQueryProvider, { dehydratedState: pageProps.dehydratedState }],
-    [AuthProvider],
-    [MUIProvider],
-  ]);
+  const CombineProvider = useMemo(
+    () =>
+      combineProviders([
+        [RecoilProvider],
+        [ReactQueryProvider, { dehydratedState: pageProps.dehydratedState }],
+        [AuthProvider],
+        [MUIProvider],
+      ]),
+    [pageProps.dehydratedState],
+  );
 
   return (
     <CacheProvider value={emotionCache}>

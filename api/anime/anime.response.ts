@@ -1,5 +1,5 @@
 import { APIResponse } from "@/types/common";
-import { Anime } from "@/types/anime";
+import { Anime, AnimeSource } from "@/types/anime";
 import { User } from "@/types/user";
 import { Review } from "@/types/review";
 import { Scrap } from "@/types/scrap";
@@ -33,3 +33,33 @@ interface CreateAnimeResponse {
 }
 
 export type FetchCreateAnimeResponse = APIResponse<CreateAnimeResponse>;
+
+export interface CrewListData {
+  id: number;
+  name: string;
+  thumbnail?: string;
+}
+interface GetCrewListResponse {
+  crews: CrewListData[];
+}
+
+export type FetchGetCrewListResponse = APIResponse<GetCrewListResponse>;
+
+interface GetCrewDetailResponse {
+  crew: {
+    id: number;
+    name: string;
+    animes: {
+      id: number;
+      title: string;
+      description: string;
+      thumbnail: string;
+      author: string;
+      animeParentId: string;
+      averageScore: number;
+      source: AnimeSource;
+    }[];
+  };
+}
+
+export type FetchGetCrewDetailResponse = APIResponse<GetCrewDetailResponse>;
