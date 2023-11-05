@@ -1,4 +1,5 @@
 import {
+  Autocomplete,
   Box,
   Button,
   FormControl,
@@ -21,13 +22,29 @@ import { useRouter } from "next/router";
 import { RoutePath } from "@/constants/route";
 import { uploadImage } from "@/api/common/common.api";
 import { FetchCreateAnimeDto } from "@/api/anime/anime.dto";
-import { fetchCreateAnime } from "@/api/anime/anime.api";
+import {
+  fetchCreateAnime,
+  fetchGetCrewList,
+  fetchGetSeriesList,
+} from "@/api/anime/anime.api";
+import { useQuery } from "@tanstack/react-query";
+import { QueryKey } from "@/constants/query-key";
 
 const CreateAnimeForm = () => {
   const { push } = useRouter();
   const { isMount } = useMount();
   const [file, setFile] = useState<File | null>(null);
   const [source, setSource] = useState(AnimeSource.ORIGINAL);
+  const { data: crewData } = useQuery(
+    [QueryKey.FETCH_GET_CREW_LIST],
+    fetchGetCrewList,
+  );
+  const { data: seriesData } = useQuery(
+    [QueryKey.FETCH_GET_SERIES_LIST],
+    fetchGetSeriesList,
+  );
+  const [crew, setCrew] = useState<string>("");
+  const [series, setSeries] = useState<string>("");
 
   const handleFileUpload: ChangeEventHandler<HTMLInputElement> = (event) => {
     const { files } = event.currentTarget;
@@ -39,6 +56,18 @@ const CreateAnimeForm = () => {
 
   const handleChange = (event: SelectChangeEvent) => {
     setSource(event.target.value as AnimeSource);
+  };
+
+  const handleChangeOnCrew = (keyword: string | null) => {
+    if (!keyword) return;
+
+    setCrew(keyword as string);
+  };
+
+  const handleChangeOnSeries = (series: string | null) => {
+    if (!series) return;
+
+    setSeries(series as string);
   };
 
   const isLoading = false;
@@ -90,8 +119,6 @@ const CreateAnimeForm = () => {
     }
   };
 
-  if (!isMount) return <></>;
-
   return (
     <Box component="form" noValidate sx={{ mt: 3 }} onSubmit={onSubmit}>
       <Grid container spacing={2}>
@@ -131,14 +158,71 @@ const CreateAnimeForm = () => {
         </Grid>
 
         <Grid item xs={12}>
-          <TextField
-            autoComplete="제작진"
-            required
-            name="crew"
-            fullWidth
-            id="crew"
-            label="제작진"
-            autoFocus
+          <Autocomplete
+            sx={{ width: "100%", background: "#fff" }}
+            value={crew}
+            onChange={(event, value, reason, details) =>
+              handleChangeOnCrew(value)
+            }
+            freeSolo
+            options={crewData?.crews.map((crew) => crew.name) ?? []}
+            autoHighlight
+            getOptionLabel={(option) => option}
+            renderOption={(props, option) => (
+              <Box
+                component="li"
+                sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                {...props}
+              >
+                {option}
+              </Box>
+            )}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                autoComplete="제작진"
+                required
+                name="crew"
+                fullWidth
+                id="crew"
+                label="제작진"
+                autoFocus
+              />
+            )}
+          />
+        </Grid>
+
+        <Grid item xs={12}>
+          <Autocomplete
+            sx={{ width: "100%", background: "#fff" }}
+            value={series}
+            onChange={(event, value, reason, details) =>
+              handleChangeOnSeries(value)
+            }
+            freeSolo
+            options={seriesData?.animes.map((anime) => anime.title) ?? []}
+            autoHighlight
+            getOptionLabel={(option) => option}
+            renderOption={(props, option) => (
+              <Box
+                component="li"
+                sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                {...props}
+              >
+                {option}
+              </Box>
+            )}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                autoComplete="시리즈"
+                name="series"
+                fullWidth
+                id="series"
+                label="series"
+                autoFocus
+              />
+            )}
           />
         </Grid>
 

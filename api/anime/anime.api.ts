@@ -13,6 +13,8 @@ import {
   FetchGetAnimeListDto,
   FetchUpdateAnimeDto,
 } from "@/api/anime/anime.dto";
+import { APIResponse } from "@/types/common";
+import { Crew } from "@/types/anime";
 
 export const fetchGetAnimeDetail = async (animeId: number) => {
   const { data } = await api.get<FetchGetAnimeDetailResponse>(
@@ -77,6 +79,16 @@ export const fetchGetSeriesList = async () => {
 
 export const fetchGetCrewDetail = async (crewId: number) => {
   const { data } = await api.get<FetchGetCrewDetailResponse>(`/crew/${crewId}`);
+
+  return data.data;
+};
+
+export const fetchGetCrewListByKeyword = async (keyword: string) => {
+  const { data } = await api.get<APIResponse<Crew[]>>("/crew/search", {
+    params: {
+      keyword,
+    },
+  });
 
   return data.data;
 };

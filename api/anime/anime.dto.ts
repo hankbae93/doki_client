@@ -8,6 +8,7 @@ export interface FetchCreateAnimeDto {
   crew: string;
   tag?: string;
   author?: string;
+  series?: string;
 }
 
 export interface FetchUpdateAnimeDto {
