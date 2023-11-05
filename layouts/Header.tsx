@@ -16,7 +16,7 @@ const Header = () => {
       url: RoutePath.MY_SCRAP,
     },
     {
-      title: "애니메이션 탐색",
+      title: "EXPLORE",
       url: RoutePath.ANIME,
     },
     {

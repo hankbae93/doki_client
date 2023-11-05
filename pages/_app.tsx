@@ -52,16 +52,16 @@ function MyApp({
         [AuthProvider],
         [MUIProvider],
       ]),
-    [pageProps.dehydratedState],
+    [],
   );
+
+  const getLayout =
+    Component.getLayout ?? ((page) => <AppLayout>{page}</AppLayout>);
 
   return (
     <CacheProvider value={emotionCache}>
       <CombineProvider>
-        <AppLayout>
-          <Component {...pageProps} />
-        </AppLayout>
-
+        {getLayout(<Component {...pageProps} />)}
         <ToastContainer />
       </CombineProvider>
     </CacheProvider>

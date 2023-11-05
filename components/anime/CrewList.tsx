@@ -22,23 +22,6 @@ const CrewList = () => {
             </Grid>
           );
         })}
-        {/*{data?.animes.map((anime) => {*/}
-        {/*    return (*/}
-        {/*        <Grid item xs={4} key={anime.id}>*/}
-        {/*            <AnimeCard*/}
-        {/*                title={anime.title}*/}
-        {/*                description={anime.description}*/}
-        {/*                thumbnail={anime.thumbnail}*/}
-        {/*                href={`${RoutePath.ANIME}/${anime.id}`}*/}
-        {/*                onScrap={() => fetchScrapAnime(anime.id)}*/}
-        {/*                source={anime.source}*/}
-        {/*                reviewCount={anime.reviewCount}*/}
-        {/*                isScrapped={!!anime.isScrapped}*/}
-        {/*                id={anime.id}*/}
-        {/*            />*/}
-        {/*        </Grid>*/}
-        {/*    );*/}
-        {/*})}*/}
       </Grid>
     </Box>
   );

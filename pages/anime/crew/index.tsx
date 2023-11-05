@@ -3,7 +3,7 @@ import PageLayout from "@/layouts/PageLayout";
 
 const CrewListPage = () => {
   return (
-    <PageLayout title="CREW List">
+    <PageLayout title="CREW">
       <CrewList />
     </PageLayout>
   );

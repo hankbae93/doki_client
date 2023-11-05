@@ -61,6 +61,7 @@ const AnimeCard = ({
   return (
     <Card sx={{ maxWidth: 345, height: "100%" }}>
       <CardHeader
+        sx={{ padding: "16px" }}
         // action={
         //   <IconButton aria-label="settings">
         //     <MoreVertIcon />

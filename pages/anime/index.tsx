@@ -1,11 +1,12 @@
 import { NextPage } from "next";
 import AnimeList from "@/components/anime/AnimeList";
+import PageLayout from "@/layouts/PageLayout";
 
 const AnimePage: NextPage = () => {
   return (
-    <div>
+    <PageLayout title="EXPLORE">
       <AnimeList />
-    </div>
+    </PageLayout>
   );
 };
 

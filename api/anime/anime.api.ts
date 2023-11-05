@@ -5,6 +5,8 @@ import {
   FetchGetAnimeListResponse,
   FetchGetCrewDetailResponse,
   FetchGetCrewListResponse,
+  GetSeriesDetailResponse,
+  GetSeriesListResponse,
 } from "@/api/anime/anime.response";
 import {
   FetchCreateAnimeDto,
@@ -67,8 +69,22 @@ export const fetchGetCrewList = async () => {
   return data.data;
 };
 
+export const fetchGetSeriesList = async () => {
+  const { data } = await api.get<GetSeriesListResponse>("/anime/series");
+
+  return data.data;
+};
+
 export const fetchGetCrewDetail = async (crewId: number) => {
   const { data } = await api.get<FetchGetCrewDetailResponse>(`/crew/${crewId}`);
+
+  return data.data;
+};
+
+export const fetchGetSeriesDetail = async (seriesId: number) => {
+  const { data } = await api.get<GetSeriesDetailResponse>(
+    `/anime/series/${seriesId}`,
+  );
 
   return data.data;
 };

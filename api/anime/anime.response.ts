@@ -34,6 +34,10 @@ interface CreateAnimeResponse {
 
 export type FetchCreateAnimeResponse = APIResponse<CreateAnimeResponse>;
 
+export type GetSeriesListResponse = APIResponse<{
+  animes: Anime[];
+}>;
+
 export interface CrewListData {
   id: number;
   name: string;
@@ -63,3 +67,8 @@ interface GetCrewDetailResponse {
 }
 
 export type FetchGetCrewDetailResponse = APIResponse<GetCrewDetailResponse>;
+
+export type GetSeriesDetailResponse = APIResponse<{
+  animes: Anime[];
+  series: Anime;
+}>;
