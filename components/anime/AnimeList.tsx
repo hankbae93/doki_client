@@ -2,7 +2,14 @@ import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { QueryKey } from "@/constants/query-key";
 import AnimeCard from "@/components/anime/AnimeCard";
-import { Autocomplete, Box, Grid, TextField } from "@mui/material";
+import {
+  Autocomplete,
+  Box,
+  Grid,
+  Switch,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { RoutePath } from "@/constants/route";
 import {
   fetchGetAnimeList,
@@ -18,6 +25,7 @@ const AnimeList = () => {
     source: "",
     order: "",
     title: "",
+    condition: false,
   });
 
   const { data } = useQuery(
@@ -26,6 +34,7 @@ const AnimeList = () => {
       filter.order,
       filter.source,
       filter.title,
+      filter.condition,
       user?.id,
     ],
     () =>
@@ -34,17 +43,35 @@ const AnimeList = () => {
             order: !filter.order ? undefined : (filter.order as AnimeOrder),
             source: !filter.source ? undefined : (filter.source as AnimeSource),
             title: !filter.title ? undefined : filter.title,
+            condition: filter.condition,
           })
         : fetchGetAnimeList({
             order: !filter.order ? undefined : (filter.order as AnimeOrder),
             source: !filter.source ? undefined : (filter.source as AnimeSource),
             title: !filter.title ? undefined : filter.title,
+            condition: filter.condition,
           }),
   );
 
   return (
     <Box>
       <Grid container spacing={2} sx={{ pt: 5 }}>
+        <Grid item xs={16}>
+          <TextField
+            fullWidth
+            id="title"
+            label="애니메이션 제목"
+            name="title"
+            sx={{ background: "#fff" }}
+            autoComplete="title"
+            value={filter.title}
+            onChange={(e) => {
+              const value = e.currentTarget?.value ?? "";
+              setFilter((prev) => ({ ...prev, title: value }));
+            }}
+          />
+        </Grid>
+
         <Grid item xs={2}>
           <Autocomplete
             onChange={(e, value) => {
@@ -119,20 +146,32 @@ const AnimeList = () => {
             )}
           />
         </Grid>
-        <Grid item xs={8}>
-          <TextField
-            fullWidth
-            id="title"
-            label="애니메이션 제목"
-            name="title"
-            sx={{ background: "#fff" }}
-            autoComplete="title"
-            value={filter.title}
-            onChange={(e) => {
-              const value = e.currentTarget?.value ?? "";
-              setFilter((prev) => ({ ...prev, title: value }));
+
+        <Grid item xs={2}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "100%",
+              height: "100%",
+              background: "#fff",
+              borderRadius: "8px",
+              borderStyle: "solid",
+              borderWidth: "1px",
+              overflow: "hidden",
+              borderColor: "#E5E7EB",
             }}
-          />
+          >
+            <Typography variant="caption">OR</Typography>
+            <Switch
+              value={filter.condition}
+              onChange={(e, value) => {
+                setFilter((prev) => ({ ...prev, condition: value }));
+              }}
+            />
+            <Typography variant="caption">AND</Typography>
+          </Box>
         </Grid>
       </Grid>
 
