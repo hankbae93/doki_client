@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect } from "react";
 import { useUserStore } from "@/atoms/user";
 import api from "@/api";
 import { useQuery } from "@tanstack/react-query";
@@ -6,23 +6,27 @@ import { QueryKey } from "@/constants/query-key";
 import { fetchGetUserInfo } from "@/api/user/user.api";
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const { isAuthenticated, user, setUser } = useUserStore();
-  const [isApiMount, setIsApiMount] = useState(false);
+  const {
+    isAuthenticated,
+    auth: { isAccessTokenUpdated },
+    setAuth,
+    user,
+    setUser,
+  } = useUserStore();
 
   const { data } = useQuery(
-    [QueryKey.FETCH_GET_USER_INFO, isAuthenticated, isApiMount],
+    [QueryKey.FETCH_GET_USER_INFO, isAuthenticated, isAccessTokenUpdated],
     fetchGetUserInfo,
     {
-      enabled: isAuthenticated && !isApiMount,
+      enabled: isAuthenticated && isAccessTokenUpdated,
     },
   );
 
   useEffect(() => {
-    setIsApiMount(true);
     api.defaults.headers.common.Authorization = isAuthenticated
       ? `Bearer ${user?.accessToken}`
       : null;
-    setIsApiMount(false);
+    setAuth((prev) => ({ ...prev, isAccessTokenUpdated: isAuthenticated }));
   }, [isAuthenticated]);
 
   useEffect(() => {
@@ -31,8 +35,6 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser((prev) => ({ ...data, accessToken: prev?.accessToken }));
     }
   }, [data]);
-
-  if (isApiMount) return <></>;
 
   return <>{children}</>;
 };

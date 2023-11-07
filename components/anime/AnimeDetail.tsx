@@ -20,6 +20,7 @@ import {
   fetchScrapAnime,
 } from "@/api/scrap/scrap.api";
 import { useRouter } from "next/router";
+import { servePath } from "@/utils/file";
 
 const AnimeDetail = () => {
   const { user } = useUserStore();
@@ -71,7 +72,7 @@ const AnimeDetail = () => {
             },
           }}
         >
-          <img src={data.anime.thumbnail} alt={data.anime.title} />
+          <img src={servePath(data.anime.thumbnail)} alt={data.anime.title} />
         </Grid>
         <Grid item xs={8}>
           <Box

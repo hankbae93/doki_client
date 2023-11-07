@@ -20,7 +20,10 @@ import { AnimeOrder, AnimeSource } from "@/types/anime";
 import { useUserStore } from "@/atoms/user";
 
 const AnimeList = () => {
-  const { user } = useUserStore();
+  const {
+    user,
+    auth: { isAccessTokenUpdated },
+  } = useUserStore();
   const [filter, setFilter] = useState({
     source: "",
     order: "",
@@ -51,6 +54,9 @@ const AnimeList = () => {
             title: !filter.title ? undefined : filter.title,
             condition: filter.condition,
           }),
+    {
+      enabled: isAccessTokenUpdated,
+    },
   );
 
   return (

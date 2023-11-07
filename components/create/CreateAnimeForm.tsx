@@ -13,15 +13,11 @@ import {
 } from "@mui/material";
 import { AnimeSource } from "@/types/anime";
 import React, { ChangeEventHandler, FormEventHandler, useState } from "react";
-import useMount from "@/hooks/useMount";
 
 import { toast } from "react-toastify";
 
 import CreateAnimeTag from "@/components/create/CreateAnimeTag";
 import { useRouter } from "next/router";
-import { RoutePath } from "@/constants/route";
-import { uploadImage } from "@/api/common/common.api";
-import { FetchCreateAnimeDto } from "@/api/anime/anime.dto";
 import {
   fetchCreateAnime,
   fetchGetCrewList,
@@ -32,8 +28,7 @@ import { QueryKey } from "@/constants/query-key";
 
 const CreateAnimeForm = () => {
   const { push } = useRouter();
-  const { isMount } = useMount();
-  const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState<FileList | null>(null);
   const [source, setSource] = useState(AnimeSource.ORIGINAL);
   const { data: crewData } = useQuery(
     [QueryKey.FETCH_GET_CREW_LIST],
@@ -49,9 +44,8 @@ const CreateAnimeForm = () => {
   const handleFileUpload: ChangeEventHandler<HTMLInputElement> = (event) => {
     const { files } = event.currentTarget;
     if (files === null) return;
-    const file = files[0];
 
-    setFile(file);
+    setFile(files);
   };
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -76,26 +70,21 @@ const CreateAnimeForm = () => {
     e.preventDefault();
     if (!file) return;
     const formData = new FormData(e.currentTarget);
-    const data = Array.from(formData.entries()).reduce((acc, [k, v]) => {
-      if (k === "tags") {
-        // @ts-ignore
-        acc[k] = JSON.parse(v as string).map((item: any) => item.value);
-      } else {
-        // @ts-ignore
-        acc[k] = v;
-      }
+    for (const item of file) {
+      formData.append("file", item);
+    }
+    formData.append("source", source);
+    const tags = JSON.parse(formData.get("tags") as string).map(
+      (item: { value: string }) => item.value,
+    );
+    formData.delete("tags");
 
-      return acc;
-    }, {});
+    for (const tag of tags) {
+      formData.append("tags", tag);
+    }
 
     try {
-      const thumbnail = await uploadImage(file);
-      const body = Object.assign(
-        { thumbnail, source },
-        data,
-      ) as FetchCreateAnimeDto;
-
-      await fetchCreateAnime(body);
+      await fetchCreateAnime(formData);
 
       toast.success("애니메이션 등록이 완료되셨습니다.", {
         position: "top-right",
@@ -105,7 +94,7 @@ const CreateAnimeForm = () => {
         draggable: true,
         theme: "light",
       });
-      push(RoutePath.HOME);
+      // push(RoutePath.HOME);
     } catch (error: any) {
       console.error(error);
       toast.error(error.message, {
@@ -133,16 +122,20 @@ const CreateAnimeForm = () => {
                 hidden
                 accept="image/*"
                 type="file"
+                multiple
                 onChange={handleFileUpload}
               />
             </label>
-            {file && (
-              <img
-                src={URL.createObjectURL(file)}
-                alt="Uploaded Image"
-                height="300"
-              />
-            )}
+            {file &&
+              [...file].map((item) => {
+                return (
+                  <img
+                    src={URL.createObjectURL(item)}
+                    alt="Uploaded Image"
+                    height="300"
+                  />
+                );
+              })}
           </Stack>
         </Grid>
 

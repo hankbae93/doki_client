@@ -9,7 +9,6 @@ import {
   GetSeriesListResponse,
 } from "@/api/anime/anime.response";
 import {
-  FetchCreateAnimeDto,
   FetchGetAnimeListDto,
   FetchUpdateAnimeDto,
 } from "@/api/anime/anime.dto";
@@ -48,7 +47,7 @@ export const fetchGetAnimeListByUser = async (params: FetchGetAnimeListDto) => {
   return data.data;
 };
 
-export const fetchCreateAnime = async (body: FetchCreateAnimeDto) => {
+export const fetchCreateAnime = async (body: FormData) => {
   const { data } = await api.post<FetchCreateAnimeResponse>("/anime", body);
   return data;
 };

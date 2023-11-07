@@ -6,7 +6,6 @@ import CardActions from "@mui/material/CardActions";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import ShareIcon from "@mui/icons-material/Share";
-import DefaultImg from "@/assets/default_img.png";
 import { Box, Link } from "@mui/material";
 import { BookmarkAdd, BookmarkRemove } from "@mui/icons-material";
 import { AnimeSource } from "@/types/anime";
@@ -17,6 +16,7 @@ import {
   fetchRemoveScrappedAnime,
   fetchScrapAnime,
 } from "@/api/scrap/scrap.api";
+import { servePath } from "@/utils/file";
 
 export interface AnimeCardProps {
   title: string;
@@ -75,7 +75,7 @@ const AnimeCard = ({
           <CardMedia
             component="img"
             height="194"
-            image={thumbnail || DefaultImg.src}
+            image={servePath(thumbnail)}
             alt={title}
           />
         </a>
