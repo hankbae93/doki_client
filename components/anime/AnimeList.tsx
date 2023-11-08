@@ -54,9 +54,6 @@ const AnimeList = () => {
             title: !filter.title ? undefined : filter.title,
             condition: filter.condition,
           }),
-    {
-      enabled: isAccessTokenUpdated,
-    },
   );
 
   return (
@@ -171,6 +168,11 @@ const AnimeList = () => {
           >
             <Typography variant="caption">OR</Typography>
             <Switch
+              sx={{
+                "& .MuiSwitch-thumb": {
+                  border: "1px solid #ccc",
+                },
+              }}
               value={filter.condition}
               onChange={(e, value) => {
                 setFilter((prev) => ({ ...prev, condition: value }));
@@ -195,6 +197,7 @@ const AnimeList = () => {
                 reviewCount={anime.reviewCount}
                 isScrapped={!!anime.isScrapped}
                 id={anime.id}
+                video={anime.video}
               />
             </Grid>
           );

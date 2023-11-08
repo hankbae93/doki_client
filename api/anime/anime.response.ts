@@ -19,6 +19,7 @@ export type FetchGetAnimeDetailResponse = APIResponse<GetAnimeDetailResponse>;
 interface AnimeListItem extends Anime {
   reviewCount: number;
   isScrapped: number;
+  video: string;
 }
 
 interface GetAnimeListResponse {

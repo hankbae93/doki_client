@@ -29,6 +29,8 @@ import { QueryKey } from "@/constants/query-key";
 const CreateAnimeForm = () => {
   const { push } = useRouter();
   const [file, setFile] = useState<FileList | null>(null);
+  const [video, setVideo] = useState<File | null>(null);
+
   const [source, setSource] = useState(AnimeSource.ORIGINAL);
   const { data: crewData } = useQuery(
     [QueryKey.FETCH_GET_CREW_LIST],
@@ -46,6 +48,13 @@ const CreateAnimeForm = () => {
     if (files === null) return;
 
     setFile(files);
+  };
+
+  const handleVideoUpload: ChangeEventHandler<HTMLInputElement> = (event) => {
+    const { files } = event.currentTarget;
+    if (files === null) return;
+    const video = files[0];
+    setVideo(video);
   };
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -70,6 +79,11 @@ const CreateAnimeForm = () => {
     e.preventDefault();
     if (!file) return;
     const formData = new FormData(e.currentTarget);
+
+    if (video) {
+      formData.append("video", video);
+    }
+
     for (const item of file) {
       formData.append("file", item);
     }
@@ -126,6 +140,7 @@ const CreateAnimeForm = () => {
                 onChange={handleFileUpload}
               />
             </label>
+
             {file &&
               [...file].map((item) => {
                 return (
@@ -136,6 +151,33 @@ const CreateAnimeForm = () => {
                   />
                 );
               })}
+          </Stack>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Stack direction="row" alignItems="center" spacing={2}>
+            <label htmlFor="upload-video">
+              <Button variant="contained" component="span">
+                비디오 업로드
+              </Button>
+
+              <input
+                id="upload-video"
+                hidden
+                accept="video/mp4"
+                type="file"
+                onChange={handleVideoUpload}
+              />
+            </label>
+
+            {video && (
+              <video
+                muted
+                autoPlay
+                src={URL.createObjectURL(video)}
+                height="300"
+              />
+            )}
           </Stack>
         </Grid>
 

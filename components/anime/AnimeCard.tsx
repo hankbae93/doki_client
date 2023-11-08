@@ -28,6 +28,7 @@ export interface AnimeCardProps {
   onScrap?: () => void;
   reviewCount?: number;
   isScrapped?: boolean;
+  video?: string;
   id: number;
   action?: boolean;
 }
@@ -43,10 +44,12 @@ const AnimeCard = ({
   reviewCount,
   action = true,
   isScrapped,
+  video,
   id,
 }: AnimeCardProps) => {
   const { user } = useUserStore();
   const [isScrap, setIsScrap] = useState(isScrapped);
+  const [isHover, setIsHover] = useState(false);
   const handleScrap = async () => {
     if (!user) return;
     if (isScrap) {
@@ -59,7 +62,20 @@ const AnimeCard = ({
   };
 
   return (
-    <Card sx={{ maxWidth: 345, height: "100%" }}>
+    <Card
+      sx={{
+        maxWidth: 345,
+        height: "100%",
+        transition: "all 0.3s ease",
+        "&:hover": {
+          transform: "scale(1.25, 1.25)",
+          transformOrigin: "50% 50%",
+          boxShadow: "1px 1px 3px rgba(0,0,0,0.5)",
+        },
+      }}
+      onMouseEnter={() => setIsHover(true)}
+      onMouseLeave={() => setIsHover(false)}
+    >
       <CardHeader
         sx={{ padding: "16px" }}
         // action={
@@ -73,10 +89,11 @@ const AnimeCard = ({
       <Link href={href}>
         <a>
           <CardMedia
-            component="img"
+            component={isHover ? "video" : "img"}
             height="194"
-            image={servePath(thumbnail)}
+            src={servePath(isHover ? video : thumbnail)}
             alt={title}
+            {...(isHover ? { autoPlay: true, muted: true } : {})}
           />
         </a>
       </Link>
