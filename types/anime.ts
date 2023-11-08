@@ -34,4 +34,5 @@ export interface Anime {
   tags: Tag[];
   crew: Crew;
   reviews: Review[];
+  images: { id: number; fileName: string }[];
 }

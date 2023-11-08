@@ -22,6 +22,9 @@ import {
 import { useRouter } from "next/router";
 import { servePath } from "@/utils/file";
 
+import "swiper/css";
+import { Swiper, SwiperSlide } from "swiper/react";
+
 const AnimeDetail = () => {
   const { user } = useUserStore();
   const [isMyAnime, setIsMyAnime] = useState(false);
@@ -60,20 +63,31 @@ const AnimeDetail = () => {
         flexDirection: "column",
       }}
     >
-      <Grid container spacing={10} direction="row">
-        <Grid
-          item
-          xs={4}
-          sx={{
-            img: {
-              width: "100%",
-              height: "400px",
-              objectFit: "contain",
-            },
-          }}
+      <Grid
+        xs={4}
+        sx={{
+          img: {
+            width: "100%",
+            height: "600px",
+            objectFit: "cover",
+          },
+        }}
+      >
+        <Swiper
+          onSlideChange={() => console.log("slide change")}
+          onSwiper={(swiper) => console.log(swiper)}
         >
-          <img src={servePath(data.anime.thumbnail)} alt={data.anime.title} />
-        </Grid>
+          {data.anime.images.map((img) => {
+            return (
+              <SwiperSlide key={img.id}>
+                <img src={servePath(img.fileName)} alt={data.anime.title} />
+              </SwiperSlide>
+            );
+          })}
+        </Swiper>
+      </Grid>
+
+      <Grid container spacing={10} direction="column">
         <Grid item xs={8}>
           <Box
             sx={{
@@ -85,22 +99,24 @@ const AnimeDetail = () => {
           >
             <Typography variant="h3">{data.anime.title}</Typography>
 
-            {isMyAnime && (
-              <IconButton
-                aria-label="add to favorites"
-                onClick={() => push(`/anime/${animeId}/edit`)}
-              >
-                <EditIcon />
-              </IconButton>
-            )}
-
-            <IconButton aria-label="add to favorites" onClick={handleScrap}>
-              {!!user && isScrap ? (
-                <BookmarkRemove sx={{ color: pink[500] }} />
-              ) : (
-                <BookmarkAdd />
+            <Box>
+              {isMyAnime && (
+                <IconButton
+                  aria-label="add to favorites"
+                  onClick={() => push(`/anime/${animeId}/edit`)}
+                >
+                  <EditIcon />
+                </IconButton>
               )}
-            </IconButton>
+
+              <IconButton aria-label="add to favorites" onClick={handleScrap}>
+                {!!user && isScrap ? (
+                  <BookmarkRemove sx={{ color: pink[500] }} />
+                ) : (
+                  <BookmarkAdd />
+                )}
+              </IconButton>
+            </Box>
           </Box>
 
           <Box sx={{ display: "flex", gap: 2, pb: 1 }}>
