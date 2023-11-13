@@ -27,6 +27,7 @@ import { RoutePath } from "@/constants/route";
 import CreateAnimeTag from "@/components/create/CreateAnimeTag";
 import { useQuery } from "@tanstack/react-query";
 import { QueryKey } from "@/constants/query-key";
+import api from "@/api";
 
 const AnimeDetailEdit = () => {
   const { push, query } = useRouter();
@@ -104,6 +105,15 @@ const AnimeDetailEdit = () => {
         theme: "light",
       });
     }
+  };
+
+  const deleteAnime = async () => {
+    await toast.promise(() => api.delete(`/anime/${animeId}`), {
+      pending: "Promise is pending",
+      success: "Promise resolved 👌",
+      error: "Promise rejected 🤯",
+    });
+    push(RoutePath.ANIME);
   };
 
   useEffect(() => {
@@ -245,15 +255,33 @@ const AnimeDetailEdit = () => {
         </Grid>
       </Grid>
 
-      <Button
-        type="submit"
-        fullWidth
-        variant="contained"
-        sx={{ mt: 3, mb: 2 }}
-        disabled={isLoading}
-      >
-        등록
-      </Button>
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+            disabled={isLoading}
+          >
+            등록
+          </Button>
+        </Grid>
+
+        <Grid item xs={6}>
+          <Button
+            type="button"
+            fullWidth
+            variant="contained"
+            color="error"
+            sx={{ mt: 3, mb: 2 }}
+            disabled={isLoading}
+            onClick={deleteAnime}
+          >
+            삭제
+          </Button>
+        </Grid>
+      </Grid>
     </Box>
   );
 };
