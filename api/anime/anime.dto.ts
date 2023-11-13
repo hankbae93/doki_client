@@ -29,4 +29,5 @@ export interface FetchGetAnimeListDto {
   order?: AnimeOrder;
   userId?: number;
   condition: boolean;
+  tag?: string;
 }

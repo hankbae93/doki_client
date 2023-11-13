@@ -6,7 +6,7 @@ import CardActions from "@mui/material/CardActions";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import ShareIcon from "@mui/icons-material/Share";
-import { Box, Link } from "@mui/material";
+import { Box, Chip, Link } from "@mui/material";
 import { BookmarkAdd, BookmarkRemove } from "@mui/icons-material";
 import { AnimeSource } from "@/types/anime";
 import React, { useState } from "react";
@@ -20,7 +20,7 @@ import { servePath } from "@/utils/file";
 
 export interface AnimeCardProps {
   title: string;
-  tag?: string;
+  tags?: { id: number; name: string }[];
   description: string;
   source: AnimeSource;
   thumbnail?: string;
@@ -35,7 +35,7 @@ export interface AnimeCardProps {
 
 const AnimeCard = ({
   title,
-  tag,
+  tags,
   description,
   thumbnail,
   href,
@@ -76,16 +76,6 @@ const AnimeCard = ({
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
     >
-      <CardHeader
-        sx={{ padding: "16px" }}
-        // action={
-        //   <IconButton aria-label="settings">
-        //     <MoreVertIcon />
-        //   </IconButton>
-        // }
-        title={title}
-        subheader={tag}
-      />
       <Link href={href}>
         <a>
           <CardMedia
@@ -98,7 +88,17 @@ const AnimeCard = ({
         </a>
       </Link>
 
+      <CardHeader
+        // action={
+        //   <IconButton aria-label="settings">
+        //     <MoreVertIcon />
+        //   </IconButton>
+        // }
+        title={title}
+      />
+
       <CardContent>
+        {tags?.map((tag) => <Chip key={tag.id} label={tag.name}></Chip>)}
         <Box>
           {!!reviewCount && (
             <Typography variant="caption" color="text.secondary">

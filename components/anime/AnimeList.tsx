@@ -16,8 +16,10 @@ import {
   fetchGetAnimeListByUser,
 } from "@/api/anime/anime.api";
 import { fetchScrapAnime } from "@/api/scrap/scrap.api";
-import { AnimeOrder, AnimeSource } from "@/types/anime";
+import { AnimeOrder, AnimeSource, Tag } from "@/types/anime";
 import { useUserStore } from "@/atoms/user";
+import api from "@/api";
+import { APIResponse } from "@/types/common";
 
 const AnimeList = () => {
   const {
@@ -29,6 +31,7 @@ const AnimeList = () => {
     order: "",
     title: "",
     condition: false,
+    tags: [""],
   });
 
   const { data } = useQuery(
@@ -38,6 +41,7 @@ const AnimeList = () => {
       filter.source,
       filter.title,
       filter.condition,
+      filter.tags[0],
       user?.id,
     ],
     () =>
@@ -46,15 +50,24 @@ const AnimeList = () => {
             order: !filter.order ? undefined : (filter.order as AnimeOrder),
             source: !filter.source ? undefined : (filter.source as AnimeSource),
             title: !filter.title ? undefined : filter.title,
+            tag: !filter.tags[0] ? undefined : filter.tags[0],
             condition: filter.condition,
           })
         : fetchGetAnimeList({
             order: !filter.order ? undefined : (filter.order as AnimeOrder),
             source: !filter.source ? undefined : (filter.source as AnimeSource),
             title: !filter.title ? undefined : filter.title,
+            tag: !filter.tags[0] ? undefined : filter.tags[0],
             condition: filter.condition,
           }),
   );
+
+  const { data: tags } = useQuery(["FETCH_TAG"], async () => {
+    const { data } = await api.get<APIResponse<Tag[]>>("/tag");
+    return data.data;
+  });
+
+  console.log(filter);
 
   return (
     <Box>
@@ -151,6 +164,43 @@ const AnimeList = () => {
         </Grid>
 
         <Grid item xs={2}>
+          <Autocomplete
+            sx={{ width: "100%" }}
+            options={
+              tags?.map((tag) => ({ text: tag.name, name: tag.name })) ?? []
+            }
+            onChange={(e, newValue) => {
+              setFilter((prev) => ({
+                ...prev,
+                tags: [newValue?.name ?? ""],
+              }));
+            }}
+            autoHighlight
+            getOptionLabel={(option) => option.text}
+            renderOption={(props, option) => (
+              <Box
+                component="li"
+                sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                {...props}
+              >
+                {option.text}
+              </Box>
+            )}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="order"
+                sx={{ background: "#fff" }}
+                inputProps={{
+                  ...params.inputProps,
+                  autoComplete: "new-password", // disable autocomplete and autofill
+                }}
+              />
+            )}
+          />
+        </Grid>
+
+        <Grid item xs={2}>
           <Box
             sx={{
               display: "flex",
@@ -194,6 +244,7 @@ const AnimeList = () => {
                 href={`${RoutePath.ANIME}/${anime.id}`}
                 onScrap={() => fetchScrapAnime(anime.id)}
                 source={anime.source}
+                tags={anime.tags}
                 reviewCount={anime.reviewCount}
                 isScrapped={!!anime.isScrapped}
                 id={anime.id}
