@@ -121,7 +121,7 @@ const AnimeDetail = () => {
 
           <Box sx={{ display: "flex", gap: 2, pb: 1 }}>
             <Typography variant="caption" color="text.secondary">
-              제작진: {data.anime.crew.name}
+              제작진: {data.anime.crew}
             </Typography>
             <Typography variant="caption" color="text.secondary">
               원작: {data.anime.source}
