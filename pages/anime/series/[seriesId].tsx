@@ -3,11 +3,11 @@ import PageLayout from "@/layouts/PageLayout";
 import { Box, Chip, Grid, Typography } from "@mui/material";
 import AnimeCard from "@/components/anime/AnimeCard";
 import { RoutePath } from "@/constants/route";
-import { fetchScrapAnime } from "@/api/scrap/scrap.api";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import { QueryKey } from "@/constants/query-key";
 import { fetchGetSeriesDetail } from "@/api/anime/anime.api";
+import { servePath } from "@/utils/file";
 
 const SeriesDetailPage = () => {
   const query = useRouter().query;
@@ -35,7 +35,10 @@ const SeriesDetailPage = () => {
             },
           }}
         >
-          <img src={data?.series.thumbnail} alt={data?.series.title} />
+          <img
+            src={servePath(data?.series.thumbnail)}
+            alt={data?.series.title}
+          />
         </Grid>
         <Grid item>
           <Typography variant="body1" sx={{ whiteSpace: "pre-wrap" }}>
@@ -44,7 +47,7 @@ const SeriesDetailPage = () => {
 
           <Box sx={{ display: "flex", gap: 2, pb: 1 }}>
             <Typography variant="caption" color="text.secondary">
-              제작진: {data?.series.crew.name}
+              제작진: {data?.series.crew}
             </Typography>
             <Typography variant="caption" color="text.secondary">
               원작: {data?.series.source}
@@ -68,7 +71,6 @@ const SeriesDetailPage = () => {
                 description={anime.description}
                 thumbnail={anime.thumbnail}
                 href={`${RoutePath.ANIME}/${anime.id}`}
-                onScrap={() => fetchScrapAnime(anime.id)}
                 source={anime.source}
                 action={false}
                 id={anime.id}

@@ -32,7 +32,7 @@ export interface Anime {
   averageScore: number;
   source: AnimeSource;
   tags: Tag[];
-  crew: Crew;
+  crew: string;
   reviews: Review[];
-  images: { id: number; fileName: string }[];
+  files: { id: number; fileName: string }[];
 }

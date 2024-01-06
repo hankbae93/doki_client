@@ -3,8 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { QueryKey } from "@/constants/query-key";
 import { fetchGetSeriesList } from "@/api/anime/anime.api";
 import { Box, Grid } from "@mui/material";
-import AnimeCard from "@/components/anime/AnimeCard";
 import { RoutePath } from "@/constants/route";
+import SeriesCard from "@/components/anime/SeriesCard";
 
 const SeriesList = () => {
   const { data } = useQuery(
@@ -18,7 +18,7 @@ const SeriesList = () => {
         {data?.animes.map((anime) => {
           return (
             <Grid item xs={4} key={anime.id}>
-              <AnimeCard
+              <SeriesCard
                 title={anime.title}
                 description={anime.description}
                 source={anime.source}

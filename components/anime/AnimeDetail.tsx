@@ -77,7 +77,7 @@ const AnimeDetail = () => {
           onSlideChange={() => console.log("slide change")}
           onSwiper={(swiper) => console.log(swiper)}
         >
-          {data.anime.images.map((img) => {
+          {data.anime.files.map((img) => {
             return (
               <SwiperSlide key={img.id}>
                 <img src={servePath(img.fileName)} alt={data.anime.title} />

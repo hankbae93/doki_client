@@ -94,6 +94,7 @@ const AnimeCard = ({
             display: "flex",
             flexWrap: "no-wrap",
             gap: 1,
+            minHeight: "32px",
             marginBottom: 1,
             overflowX: "scroll",
             "&::-webkit-scrollbar": {
@@ -106,6 +107,11 @@ const AnimeCard = ({
           {tags?.map((tag) => (
             <Chip key={tag.id} label={tag.name} variant="outlined" />
           ))}
+          {tags?.length === 0 && (
+            <Typography variant="overline" color="text.secondary">
+              태그가 존재하지 않습니다.
+            </Typography>
+          )}
         </Box>
         <Typography
           variant="caption"

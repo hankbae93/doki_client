@@ -21,6 +21,7 @@ import { useRouter } from "next/router";
 import { fetchCreateAnime, fetchGetSeriesList } from "@/api/anime/anime.api";
 import { useQuery } from "@tanstack/react-query";
 import { QueryKey } from "@/constants/query-key";
+import { RoutePath } from "@/constants/route";
 
 const CreateAnimeForm = () => {
   const { push } = useRouter();
@@ -42,21 +43,8 @@ const CreateAnimeForm = () => {
     setFile(files);
   };
 
-  const handleVideoUpload: ChangeEventHandler<HTMLInputElement> = (event) => {
-    const { files } = event.currentTarget;
-    if (files === null) return;
-    const video = files[0];
-    setVideo(video);
-  };
-
   const handleChange = (event: SelectChangeEvent) => {
     setSource(event.target.value as AnimeSource);
-  };
-
-  const handleChangeOnCrew = (keyword: string | null) => {
-    if (!keyword) return;
-
-    setCrew(keyword as string);
   };
 
   const handleChangeOnSeries = (series: string | null) => {
@@ -100,7 +88,7 @@ const CreateAnimeForm = () => {
         draggable: true,
         theme: "light",
       });
-      // push(RoutePath.HOME);
+      push(RoutePath.HOME);
     } catch (error: any) {
       console.error(error);
       toast.error(error.message, {

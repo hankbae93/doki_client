@@ -24,10 +24,6 @@ const Header = () => {
       url: RoutePath.MY_PROFILE,
     },
     {
-      title: "CREW",
-      url: RoutePath.CREW,
-    },
-    {
       title: "SERIES",
       url: RoutePath.SERIES,
     },
