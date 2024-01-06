@@ -11,13 +11,13 @@ import {
 import { FetchSuccessResponse } from "@/api/common/common.response";
 
 export const fetchSignIn = async (body: FetchSignInDto) => {
-  const { data } = await api.post<FetchSignInResponse>("/user/signin", body);
+  const { data } = await api.post<FetchSignInResponse>("/auth/signin", body);
 
   return data;
 };
 
 export const fetchSignUp = async (body: FetchSignUpDto) => {
-  const { data } = await api.post<FetchSuccessResponse>("/user/signup", body);
+  const { data } = await api.post<FetchSuccessResponse>("/auth/signup", body);
   return data;
 };
 

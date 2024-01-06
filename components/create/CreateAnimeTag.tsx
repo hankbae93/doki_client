@@ -17,7 +17,6 @@ const CreateAnimeTag = ({ defaultValue = [] }: { defaultValue?: string[] }) => {
   const [tagifySettings, setTagifySettings] = useState(defaultValue);
   const [tagifyProps, setTagifyProps] = useState({});
 
-  // on component mount
   useEffect(() => {
     setTagifyProps({ loading: true });
     setTagifyProps((lastProps) => ({
@@ -42,6 +41,7 @@ const CreateAnimeTag = ({ defaultValue = [] }: { defaultValue?: string[] }) => {
       <Button className={styles.button} onClick={clearAll}>
         Clear All
       </Button>
+
       <Tags
         name="tags"
         value={defaultValue.join(",")}

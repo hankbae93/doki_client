@@ -18,11 +18,7 @@ import { toast } from "react-toastify";
 
 import CreateAnimeTag from "@/components/create/CreateAnimeTag";
 import { useRouter } from "next/router";
-import {
-  fetchCreateAnime,
-  fetchGetCrewList,
-  fetchGetSeriesList,
-} from "@/api/anime/anime.api";
+import { fetchCreateAnime, fetchGetSeriesList } from "@/api/anime/anime.api";
 import { useQuery } from "@tanstack/react-query";
 import { QueryKey } from "@/constants/query-key";
 
@@ -32,10 +28,6 @@ const CreateAnimeForm = () => {
   const [video, setVideo] = useState<File | null>(null);
 
   const [source, setSource] = useState(AnimeSource.ORIGINAL);
-  const { data: crewData } = useQuery(
-    [QueryKey.FETCH_GET_CREW_LIST],
-    fetchGetCrewList,
-  );
   const { data: seriesData } = useQuery(
     [QueryKey.FETCH_GET_SERIES_LIST],
     fetchGetSeriesList,
@@ -123,7 +115,18 @@ const CreateAnimeForm = () => {
   };
 
   return (
-    <Box component="form" noValidate sx={{ mt: 3 }} onSubmit={onSubmit}>
+    <Box
+      component="form"
+      noValidate
+      onSubmit={onSubmit}
+      sx={{
+        mt: 3,
+        [".MuiFormControl-root, tags"]: {
+          background: "#fff",
+          borderRadius: "8px",
+        },
+      }}
+    >
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Stack direction="row" alignItems="center" spacing={2}>
@@ -155,33 +158,6 @@ const CreateAnimeForm = () => {
         </Grid>
 
         <Grid item xs={12}>
-          <Stack direction="row" alignItems="center" spacing={2}>
-            <label htmlFor="upload-video">
-              <Button variant="contained" component="span">
-                비디오 업로드
-              </Button>
-
-              <input
-                id="upload-video"
-                hidden
-                accept="video/mp4"
-                type="file"
-                onChange={handleVideoUpload}
-              />
-            </label>
-
-            {video && (
-              <video
-                muted
-                autoPlay
-                src={URL.createObjectURL(video)}
-                height="300"
-              />
-            )}
-          </Stack>
-        </Grid>
-
-        <Grid item xs={12}>
           <TextField
             required
             fullWidth
@@ -193,37 +169,15 @@ const CreateAnimeForm = () => {
         </Grid>
 
         <Grid item xs={12}>
-          <Autocomplete
-            sx={{ width: "100%", background: "#fff" }}
-            value={crew}
-            onChange={(event, value, reason, details) =>
-              handleChangeOnCrew(value)
-            }
-            freeSolo
-            options={crewData?.crews.map((crew) => crew.name) ?? []}
-            autoHighlight
-            getOptionLabel={(option) => option}
-            renderOption={(props, option) => (
-              <Box
-                component="li"
-                sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
-                {...props}
-              >
-                {option}
-              </Box>
-            )}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                autoComplete="제작진"
-                required
-                name="crew"
-                fullWidth
-                id="crew"
-                label="제작진"
-                autoFocus
-              />
-            )}
+          <TextField
+            autoComplete="제작진"
+            required
+            name="crew"
+            fullWidth
+            id="crew"
+            label="제작진"
+            autoFocus
+            sx={{ background: "#fff" }}
           />
         </Grid>
 
@@ -275,14 +229,6 @@ const CreateAnimeForm = () => {
 
         <Grid item xs={12}>
           <CreateAnimeTag />
-          {/*<TextField*/}
-          {/*  fullWidth*/}
-          {/*  name="tag"*/}
-          {/*  label="장르, 태그"*/}
-          {/*  type="tag"*/}
-          {/*  id="tag"*/}
-          {/*  autoComplete="장르, 태그"*/}
-          {/*/>*/}
         </Grid>
 
         <Grid item xs={12}>

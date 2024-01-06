@@ -7,16 +7,16 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import ShareIcon from "@mui/icons-material/Share";
 import { Box, Chip, Link } from "@mui/material";
-import { BookmarkAdd, BookmarkRemove } from "@mui/icons-material";
 import { AnimeSource } from "@/types/anime";
 import React, { useState } from "react";
 import { useUserStore } from "@/atoms/user";
-import { pink } from "@mui/material/colors";
+import { blue, grey, pink } from "@mui/material/colors";
 import {
   fetchRemoveScrappedAnime,
   fetchScrapAnime,
 } from "@/api/scrap/scrap.api";
 import { servePath } from "@/utils/file";
+import { BookmarkAdd, BookmarkRemove } from "@mui/icons-material";
 
 export interface AnimeCardProps {
   title: string;
@@ -25,10 +25,8 @@ export interface AnimeCardProps {
   source: AnimeSource;
   thumbnail?: string;
   href?: string;
-  onScrap?: () => void;
   reviewCount?: number;
   isScrapped?: boolean;
-  video?: string;
   id: number;
   action?: boolean;
 }
@@ -40,11 +38,9 @@ const AnimeCard = ({
   thumbnail,
   href,
   source,
-  onScrap,
   reviewCount,
   action = true,
   isScrapped,
-  video,
   id,
 }: AnimeCardProps) => {
   const { user } = useUserStore();
@@ -65,68 +61,97 @@ const AnimeCard = ({
     <Card
       sx={{
         maxWidth: 345,
-        height: "100%",
-        transition: "all 0.3s ease",
+        display: "flex",
+        flexDirection: "column",
+        overflow: "hidden",
+        borderRadius: 2,
+        boxShadow: 1,
+        transition: "transform 0.3s ease-in-out",
         "&:hover": {
-          transform: "scale(1.25, 1.25)",
-          transformOrigin: "50% 50%",
-          boxShadow: "1px 1px 3px rgba(0,0,0,0.5)",
+          boxShadow: 3,
+          transform: "scale(1.1)",
         },
+        backgroundColor: grey[100],
       }}
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
     >
       <Link href={href}>
-        <a>
-          <CardMedia
-            component={isHover ? "video" : "img"}
-            height="194"
-            src={servePath(isHover ? video : thumbnail)}
-            alt={title}
-            {...(isHover ? { autoPlay: true, muted: true } : {})}
-          />
-        </a>
+        <CardMedia
+          component="img"
+          height="194"
+          image={servePath(thumbnail)}
+          alt={title}
+        />
       </Link>
-
       <CardHeader
-        // action={
-        //   <IconButton aria-label="settings">
-        //     <MoreVertIcon />
-        //   </IconButton>
-        // }
         title={title}
+        sx={{ bgcolor: blue[500], color: "white", padding: "8px 16px" }}
       />
-
-      <CardContent>
-        {tags?.map((tag) => <Chip key={tag.id} label={tag.name}></Chip>)}
-        <Box>
-          {!!reviewCount && (
-            <Typography variant="caption" color="text.secondary">
-              리뷰 개수: {reviewCount}
-            </Typography>
-          )}
+      <CardContent sx={{ flexGrow: 1, padding: "16px" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexWrap: "no-wrap",
+            gap: 1,
+            marginBottom: 1,
+            overflowX: "scroll",
+            "&::-webkit-scrollbar": {
+              display: "none",
+            },
+            scrollbarWidth: "none", // This is for Firefox
+            msOverflowStyle: "none", // This is for Internet Explorer
+          }}
+        >
+          {tags?.map((tag) => (
+            <Chip key={tag.id} label={tag.name} variant="outlined" />
+          ))}
         </Box>
-
+        <Typography
+          variant="caption"
+          color="text.secondary"
+          gutterBottom
+          sx={{ mr: 1 }}
+        >
+          리뷰 개수: {reviewCount}
+        </Typography>
         <Typography variant="caption" color="text.secondary">
           원작: {source}
         </Typography>
-
-        <Typography variant="body2" color="text.secondary">
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          mt={1}
+          sx={{
+            display: "-webkit-box",
+            overflow: "hidden",
+            WebkitBoxOrient: "vertical",
+            WebkitLineClamp: 3,
+            textOverflow: "ellipsis",
+            height: "calc(1.45em * 3)", // Adjust the multiplier to match the line-height of body2 variant
+          }}
+        >
           {description || "소개글이 없습니다."}
         </Typography>
       </CardContent>
 
       {action && (
-        <CardActions disableSpacing sx={{ margin: "auto 0 0" }}>
-          <IconButton aria-label="add to favorites" onClick={handleScrap}>
+        <CardActions
+          disableSpacing
+          sx={{ justifyContent: "center", padding: "8px" }}
+        >
+          <IconButton
+            aria-label="add to favorites"
+            onClick={handleScrap}
+            sx={{ margin: "0 8px" }}
+          >
             {!!user && isScrap ? (
               <BookmarkRemove sx={{ color: pink[500] }} />
             ) : (
               <BookmarkAdd />
             )}
           </IconButton>
-
-          <IconButton aria-label="share">
+          <IconButton aria-label="share" sx={{ margin: "0 8px" }}>
             <ShareIcon />
           </IconButton>
         </CardActions>

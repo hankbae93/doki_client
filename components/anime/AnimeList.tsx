@@ -67,8 +67,6 @@ const AnimeList = () => {
     return data.data;
   });
 
-  console.log(filter);
-
   return (
     <Box>
       <Grid container spacing={2} sx={{ pt: 5 }}>
@@ -189,7 +187,7 @@ const AnimeList = () => {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="order"
+                label="tag"
                 sx={{ background: "#fff" }}
                 inputProps={{
                   ...params.inputProps,
