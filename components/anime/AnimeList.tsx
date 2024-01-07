@@ -15,7 +15,6 @@ import {
   fetchGetAnimeList,
   fetchGetAnimeListByUser,
 } from "@/api/anime/anime.api";
-import { fetchScrapAnime } from "@/api/scrap/scrap.api";
 import { AnimeOrder, AnimeSource, Tag } from "@/types/anime";
 import { useUserStore } from "@/atoms/user";
 import api from "@/api";
@@ -34,7 +33,7 @@ const AnimeList = () => {
     tags: [""],
   });
 
-  const { data } = useQuery(
+  const { data, refetch } = useQuery(
     [
       QueryKey.FETCH_ANIME_LIST,
       filter.order,
@@ -114,7 +113,6 @@ const AnimeList = () => {
                 label="출처"
                 inputProps={{
                   ...params.inputProps,
-                  autoComplete: "new-password", // disable autocomplete and autofill
                 }}
                 sx={{ background: "#fff" }}
               />
@@ -154,7 +152,6 @@ const AnimeList = () => {
                 sx={{ background: "#fff" }}
                 inputProps={{
                   ...params.inputProps,
-                  autoComplete: "new-password", // disable autocomplete and autofill
                 }}
               />
             )}
@@ -236,17 +233,18 @@ const AnimeList = () => {
           return (
             <Grid item xs={4} key={anime.id}>
               <AnimeCard
+                id={anime.id}
                 title={anime.title}
+                isScrapped={!!anime.isScrapped}
                 description={anime.description}
                 thumbnail={anime.thumbnail}
                 href={`${RoutePath.ANIME}/${anime.id}`}
-                onScrap={() => fetchScrapAnime(anime.id)}
+                scrapId={anime.scrapId}
+                refetch={() => refetch()}
+                // onScrap={() => fetchScrapAnime(anime.id)}
                 source={anime.source}
                 tags={anime.tags}
                 reviewCount={anime.reviewCount}
-                isScrapped={!!anime.isScrapped}
-                id={anime.id}
-                video={anime.video}
               />
             </Grid>
           );

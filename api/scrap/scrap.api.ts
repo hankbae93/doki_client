@@ -17,9 +17,9 @@ export const fetchGetMyScrapList = async () => {
   return data.data;
 };
 
-export const fetchRemoveScrappedAnime = async (animeId: number) => {
+export const fetchRemoveScrappedAnime = async (scrapId: number) => {
   const { data } = await api.post<FetchSuccessResponse>(
-    `/scrap/remove/${animeId}`,
+    `/scrap/remove/${scrapId}`,
   );
 
   return data;

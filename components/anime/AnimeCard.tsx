@@ -28,7 +28,9 @@ export interface AnimeCardProps {
   reviewCount?: number;
   isScrapped?: boolean;
   id: number;
+  scrapId?: number;
   action?: boolean;
+  refetch?: () => Promise<any>;
 }
 
 const AnimeCard = ({
@@ -42,17 +44,20 @@ const AnimeCard = ({
   action = true,
   isScrapped,
   id,
+  scrapId,
+  refetch,
 }: AnimeCardProps) => {
   const { user } = useUserStore();
   const [isScrap, setIsScrap] = useState(isScrapped);
   const [isHover, setIsHover] = useState(false);
   const handleScrap = async () => {
     if (!user) return;
-    if (isScrap) {
-      await fetchRemoveScrappedAnime(id);
+    if (isScrap && scrapId) {
+      await fetchRemoveScrappedAnime(scrapId);
     } else {
       await fetchScrapAnime(id);
     }
+    await refetch?.();
 
     setIsScrap((prev) => !prev);
   };

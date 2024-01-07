@@ -52,7 +52,7 @@ function MyApp({
         [AuthProvider],
         [MUIProvider],
       ]),
-    [],
+    [pageProps.dehydratedState],
   );
 
   const getLayout =

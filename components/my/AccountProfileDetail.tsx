@@ -82,7 +82,7 @@ const AccountProfileDetail = ({ file }: { file: File | null }) => {
         <CardHeader subheader="The information can be edited" title="Profile" />
         <CardContent sx={{ pt: 0 }}>
           <Box sx={{ m: -1.5 }}>
-            <Grid container spacing={3}>
+            <Grid container sx={{ gap: "8px" }}>
               <Grid xs={12} md={6}>
                 <TextField
                   fullWidth
@@ -91,9 +91,10 @@ const AccountProfileDetail = ({ file }: { file: File | null }) => {
                   name="nickname"
                   onChange={handleChange}
                   required
-                  value={values.nickname}
+                  value={values?.nickname}
                 />
               </Grid>
+
               <Grid xs={12} md={6}>
                 <TextField
                   fullWidth
@@ -101,9 +102,10 @@ const AccountProfileDetail = ({ file }: { file: File | null }) => {
                   name="description"
                   onChange={handleChange}
                   required
-                  value={values.description}
+                  value={values?.description}
                 />
               </Grid>
+
               <Grid xs={12} md={6}>
                 <TextField
                   fullWidth
@@ -112,7 +114,7 @@ const AccountProfileDetail = ({ file }: { file: File | null }) => {
                   }}
                   label="Email Address"
                   name="email"
-                  value={values.email}
+                  value={values?.email}
                 />
               </Grid>
             </Grid>

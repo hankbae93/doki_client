@@ -33,8 +33,6 @@ const AccountProfile = ({
   useEffect(() => {
     // @ts-ignore
     setUserState(user);
-    if (user?.profile) {
-    }
   }, [user]);
 
   return (

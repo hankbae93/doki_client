@@ -20,6 +20,7 @@ interface AnimeListItem extends Anime {
   reviewCount: number;
   isScrapped: number;
   video: string;
+  scrapId?: number;
 }
 
 interface GetAnimeListResponse {
