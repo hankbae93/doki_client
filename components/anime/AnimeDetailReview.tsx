@@ -22,7 +22,7 @@ const AnimeDetailReview = () => {
   const [score, setScore] = useState(0);
   const [value, setValue] = React.useState(0);
   const { animeId, updateAnimeByReviewCreated, refetch } = useAnimeQuery();
-  const { data: myReview } = useQuery(
+  const { data: myReview, refetch: retfetchMyReview } = useQuery(
     [QueryKey.FETCH_GET_MY_REVIEW, animeId],
     () => fetchGetMyReview(animeId),
     {
@@ -44,6 +44,7 @@ const AnimeDetailReview = () => {
 
     await updateAnimeByReviewCreated(review, averageScore);
     setValue(0);
+    retfetchMyReview();
   };
 
   const updateReview = async () => {
