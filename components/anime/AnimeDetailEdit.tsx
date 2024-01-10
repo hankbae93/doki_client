@@ -179,7 +179,7 @@ const AnimeDetailEdit = () => {
             id="crew"
             label="제작진"
             autoFocus
-            defaultValue={data.anime.crew.name}
+            defaultValue={data.anime.crew}
           />
         </Grid>
 

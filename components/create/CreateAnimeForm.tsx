@@ -133,9 +133,10 @@ const CreateAnimeForm = () => {
             </label>
 
             {file &&
-              [...file].map((item) => {
+              [...file].map((item, index) => {
                 return (
                   <img
+                    key={index}
                     src={URL.createObjectURL(item)}
                     alt="Uploaded Image"
                     height="300"
