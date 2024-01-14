@@ -26,11 +26,11 @@ import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 const AnimeDetail = () => {
-  const { user } = useUserStore();
   const [isMyAnime, setIsMyAnime] = useState(false);
   const [isScrap, setIsScrap] = useState(false);
-  const { push } = useRouter();
+  const { user } = useUserStore();
   const { data, isLoading, animeId } = useAnimeQuery();
+  const { push } = useRouter();
 
   const handleScrap = async () => {
     if (isMyAnime) {
@@ -93,7 +93,7 @@ const AnimeDetail = () => {
             sx={{
               display: "flex",
               justifyContent: "space-between",
-              alignItems: "baseline",
+              alignItems: "center",
               pb: 2,
             }}
           >

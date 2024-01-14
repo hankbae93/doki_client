@@ -8,10 +8,7 @@ import {
   GetSeriesDetailResponse,
   GetSeriesListResponse,
 } from "@/api/anime/anime.response";
-import {
-  FetchGetAnimeListDto,
-  FetchUpdateAnimeDto,
-} from "@/api/anime/anime.dto";
+import { FetchGetAnimeListDto } from "@/api/anime/anime.dto";
 import { APIResponse } from "@/types/common";
 import { Crew } from "@/types/anime";
 
@@ -52,10 +49,7 @@ export const fetchCreateAnime = async (body: FormData) => {
   return data;
 };
 
-export const fetchUpdateAnime = async ({
-  animeId,
-  ...body
-}: FetchUpdateAnimeDto) => {
+export const fetchUpdateAnime = async (animeId: number, body: FormData) => {
   const { data } = await api.post<FetchCreateAnimeResponse>(
     `/anime/${animeId}`,
     body,

@@ -19,71 +19,71 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import { uploadImage } from "@/api/common/common.api";
-import { FetchUpdateAnimeDto } from "@/api/anime/anime.dto";
-import { fetchGetAnimeDetail, fetchUpdateAnime } from "@/api/anime/anime.api";
+import { fetchUpdateAnime } from "@/api/anime/anime.api";
 import { toast } from "react-toastify";
 import { RoutePath } from "@/constants/route";
 import CreateAnimeTag from "@/components/create/CreateAnimeTag";
-import { useQuery } from "@tanstack/react-query";
-import { QueryKey } from "@/constants/query-key";
 import api from "@/api";
+import { servePath } from "@/utils/file";
+import useAnimeQuery from "@/hooks/useAnimeQuery";
+import AnimeFormImage from "@/components/anime/AnimeFormImage";
 
 const AnimeDetailEdit = () => {
-  const { push, query } = useRouter();
-  const animeId = query.animeId as string;
-  const { isMount } = useMount();
-  const [file, setFile] = useState<File | string | null>(null);
+  const [thumbnail, setThumbnail] = useState<string | null>(null);
+  const [file, setFile] = useState<File[]>([]);
   const [source, setSource] = useState(AnimeSource.ORIGINAL);
-  const { data } = useQuery(
-    [QueryKey.FETCH_ANIME, animeId],
-    () => fetchGetAnimeDetail(+animeId),
-    {
-      enabled: !!animeId,
-    },
-  );
+  const { data, animeId } = useAnimeQuery();
+  const { isMount } = useMount();
+  const { push } = useRouter();
 
   const handleFileUpload: ChangeEventHandler<HTMLInputElement> = (event) => {
     const { files } = event.currentTarget;
     if (files === null) return;
-    const file = files[0];
+    const receivedFile = files[0];
 
-    setFile(file);
+    setFile((prev) => prev.concat(receivedFile));
   };
 
   const handleChange = (event: SelectChangeEvent) => {
     setSource(event.target.value as AnimeSource);
   };
 
-  const isLoading = false;
+  const handleFormData = (formData: FormData) => {
+    if (thumbnail) {
+      formData.append("thumbnail", thumbnail);
+    }
+    for (const item of file) {
+      formData.append("file", item);
+    }
+    formData.append("source", source);
+
+    const editedTag = formData.get("tags");
+    const tags = editedTag
+      ? JSON.parse(editedTag as string).map(
+          (item: { value: string }) => item.value,
+        )
+      : [];
+    if (editedTag) {
+      formData.delete("tags");
+    }
+    for (const tag of tags) {
+      formData.append("tags", tag);
+    }
+
+    for (const [key, value] of formData.entries()) {
+      if (!value && key !== "tags") formData.delete(key);
+    }
+
+    return formData;
+  };
 
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     if (!file) return;
-    const formData = new FormData(e.currentTarget);
-    const data = Array.from(formData.entries()).reduce((acc, [k, v]) => {
-      if (k === "tags") {
-        // @ts-ignore
-        acc[k] = JSON.parse(v as string).map((item: any) => item.value);
-      } else {
-        // @ts-ignore
-        acc[k] = v;
-      }
-
-      return acc;
-    }, {});
+    const formData = handleFormData(new FormData(e.currentTarget));
 
     try {
-      let thumbnail = file;
-      if (typeof file !== "string") {
-        thumbnail = await uploadImage(file);
-      }
-      const body = Object.assign(
-        { thumbnail, source, animeId: +animeId },
-        data,
-      ) as FetchUpdateAnimeDto;
-
-      await fetchUpdateAnime(body);
+      await fetchUpdateAnime(animeId, formData);
 
       toast.success("애니메이션 변경이 완료되셨습니다.", {
         position: "top-right",
@@ -93,7 +93,7 @@ const AnimeDetailEdit = () => {
         draggable: true,
         theme: "light",
       });
-      push(RoutePath.ANIME + `/${animeId}`);
+      await push(RoutePath.ANIME + `/${animeId}`);
     } catch (error: any) {
       console.error(error);
       toast.error(error.message, {
@@ -118,7 +118,7 @@ const AnimeDetailEdit = () => {
 
   useEffect(() => {
     if (data?.anime.thumbnail) {
-      setFile(data?.anime.thumbnail);
+      setThumbnail(data?.anime.thumbnail);
     }
   }, [data?.anime.thumbnail]);
 
@@ -146,15 +146,27 @@ const AnimeDetailEdit = () => {
                 onChange={handleFileUpload}
               />
             </label>
-            {file && (
-              <img
-                src={
-                  typeof file === "string" ? file : URL.createObjectURL(file)
-                }
-                alt="Uploaded Image"
-                height="300"
+            {thumbnail && (
+              <AnimeFormImage
+                src={servePath(thumbnail)}
+                onClick={() => setThumbnail(null)}
               />
             )}
+
+            {file &&
+              [...file].map((item, index) => {
+                return (
+                  <AnimeFormImage
+                    key={index}
+                    src={URL.createObjectURL(item)}
+                    onClick={() =>
+                      setFile((prev) =>
+                        prev.filter((_, fileIndex) => fileIndex !== index),
+                      )
+                    }
+                  />
+                );
+              })}
           </Stack>
         </Grid>
 
@@ -192,7 +204,7 @@ const AnimeDetailEdit = () => {
             type="description"
             id="description"
             autoComplete="소개글"
-            defaultValue={data.anime.title}
+            defaultValue={data.anime.description}
           />
         </Grid>
 
@@ -262,7 +274,6 @@ const AnimeDetailEdit = () => {
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
-            disabled={isLoading}
           >
             등록
           </Button>
@@ -275,7 +286,6 @@ const AnimeDetailEdit = () => {
             variant="contained"
             color="error"
             sx={{ mt: 3, mb: 2 }}
-            disabled={isLoading}
             onClick={deleteAnime}
           >
             삭제

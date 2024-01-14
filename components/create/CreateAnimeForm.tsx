@@ -55,17 +55,15 @@ const CreateAnimeForm = () => {
 
   const isLoading = false;
 
-  const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
-    e.preventDefault();
-    if (!file) return;
-    const formData = new FormData(e.currentTarget);
-
+  const handleFormData = (formData: FormData) => {
     if (video) {
       formData.append("video", video);
     }
 
-    for (const item of file) {
-      formData.append("file", item);
+    if (file) {
+      for (const item of file) {
+        formData.append("file", item);
+      }
     }
     formData.append("source", source);
     const tags = JSON.parse(formData.get("tags") as string).map(
@@ -76,6 +74,14 @@ const CreateAnimeForm = () => {
     for (const tag of tags) {
       formData.append("tags", tag);
     }
+
+    return formData;
+  };
+
+  const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
+    if (!file) return;
+    const formData = handleFormData(new FormData(e.currentTarget));
 
     try {
       await fetchCreateAnime(formData);
