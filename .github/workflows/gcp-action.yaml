@@ -37,7 +37,6 @@ jobs:
           username: ${{ secrets.GCP_VM_USERNAME }}
           port: 22
           script: |
-             cat .env
             sudo echo "${{ secrets.ENV_PRODUCTION }}" > .env
             cat .env
 
