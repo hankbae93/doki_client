@@ -2,7 +2,7 @@ import axios from "axios";
 import process from "process";
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL: "https://api.doki-doki.shop",
 });
 
 api.defaults.timeout = 5000;
