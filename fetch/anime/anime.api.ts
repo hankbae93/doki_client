@@ -1,4 +1,4 @@
-import api from "@/api";
+import api from "fetch";
 import {
   FetchCreateAnimeResponse,
   FetchGetAnimeDetailResponse,
@@ -7,8 +7,8 @@ import {
   FetchGetCrewListResponse,
   GetSeriesDetailResponse,
   GetSeriesListResponse,
-} from "@/api/anime/anime.response";
-import { FetchGetAnimeListDto } from "@/api/anime/anime.dto";
+} from "@/fetch/anime/anime.response";
+import { FetchGetAnimeListDto } from "@/fetch/anime/anime.dto";
 import { APIResponse } from "@/types/common";
 import { Crew } from "@/types/anime";
 

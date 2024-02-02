@@ -1,4 +1,4 @@
-import api from "@/api";
+import api from "fetch";
 import process from "process";
 
 export const uploadImage = async (image: File) => {

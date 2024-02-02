@@ -4,7 +4,7 @@ import { QueryKey } from "@/constants/query-key";
 import AnimeCard from "@/components/anime/AnimeCard";
 import { RoutePath } from "@/constants/route";
 import { Box, Grid } from "@mui/material";
-import { fetchGetMyScrapList } from "@/api/scrap/scrap.api";
+import { fetchGetMyScrapList } from "@/fetch/scrap/scrap.api";
 
 const ScrapPage = () => {
   const { data } = useQuery([QueryKey.FETCH_MY_SCRAPS], fetchGetMyScrapList);

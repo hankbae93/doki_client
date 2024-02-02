@@ -18,7 +18,7 @@ import { toast } from "react-toastify";
 
 import CreateAnimeTag from "@/components/create/CreateAnimeTag";
 import { useRouter } from "next/router";
-import { fetchCreateAnime, fetchGetSeriesList } from "@/api/anime/anime.api";
+import { fetchCreateAnime, fetchGetSeriesList } from "@/fetch/anime/anime.api";
 import { useQuery } from "@tanstack/react-query";
 import { QueryKey } from "@/constants/query-key";
 import { RoutePath } from "@/constants/route";

@@ -11,9 +11,9 @@ import {
   Unstable_Grid2 as Grid,
 } from "@mui/material";
 import { useUserStore } from "@/atoms/user";
-import { uploadImage } from "@/api/common/common.api";
+import { uploadImage } from "@/fetch/common/common.api";
 import { toast } from "react-toastify";
-import { fetchUpdateProfile } from "@/api/user/user.api";
+import { fetchUpdateProfile } from "@/fetch/user/user.api";
 
 const AccountProfileDetail = ({ file }: { file: File | null }) => {
   const { user, setUser } = useUserStore();

@@ -1,9 +1,9 @@
 import { ReactNode, useEffect } from "react";
 import { useUserStore } from "@/atoms/user";
-import api from "@/api";
+import api from "fetch";
 import { useQuery } from "@tanstack/react-query";
 import { QueryKey } from "@/constants/query-key";
-import { fetchGetUserInfo } from "@/api/user/user.api";
+import { fetchGetUserInfo } from "@/fetch/user/user.api";
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const {

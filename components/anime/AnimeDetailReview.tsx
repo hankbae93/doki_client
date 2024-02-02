@@ -14,7 +14,7 @@ import {
   fetchCreateReview,
   fetchGetMyReview,
   fetchUpdateMyReview,
-} from "@/api/review/review.api";
+} from "@/fetch/review/review.api";
 import { toast } from "react-toastify";
 
 const AnimeDetailReview = () => {

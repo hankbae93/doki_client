@@ -18,7 +18,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import {
   fetchRemoveScrappedAnime,
   fetchScrapAnime,
-} from "@/api/scrap/scrap.api";
+} from "@/fetch/scrap/scrap.api";
 import { useRouter } from "next/router";
 import { servePath } from "@/utils/file";
 

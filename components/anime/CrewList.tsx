@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Grid } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { QueryKey } from "@/constants/query-key";
-import { fetchGetCrewList } from "@/api/anime/anime.api";
+import { fetchGetCrewList } from "@/fetch/anime/anime.api";
 import CrewCard from "@/components/anime/CrewCard";
 
 const CrewList = () => {

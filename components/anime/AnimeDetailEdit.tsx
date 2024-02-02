@@ -19,11 +19,11 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import { fetchUpdateAnime } from "@/api/anime/anime.api";
+import { fetchUpdateAnime } from "@/fetch/anime/anime.api";
 import { toast } from "react-toastify";
 import { RoutePath } from "@/constants/route";
 import CreateAnimeTag from "@/components/create/CreateAnimeTag";
-import api from "@/api";
+import api from "fetch";
 import { servePath } from "@/utils/file";
 import useAnimeQuery from "@/hooks/useAnimeQuery";
 import AnimeFormImage from "@/components/anime/AnimeFormImage";

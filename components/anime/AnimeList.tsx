@@ -14,10 +14,10 @@ import { RoutePath } from "@/constants/route";
 import {
   fetchGetAnimeList,
   fetchGetAnimeListByUser,
-} from "@/api/anime/anime.api";
+} from "@/fetch/anime/anime.api";
 import { AnimeOrder, AnimeSource, Tag } from "@/types/anime";
 import { useUserStore } from "@/atoms/user";
-import api from "@/api";
+import api from "fetch";
 import { APIResponse } from "@/types/common";
 
 const AnimeList = () => {

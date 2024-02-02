@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { QueryKey } from "@/constants/query-key";
-import { fetchGetSeriesList } from "@/api/anime/anime.api";
+import { fetchGetSeriesList } from "@/fetch/anime/anime.api";
 import { Box, Grid } from "@mui/material";
 import { RoutePath } from "@/constants/route";
 import SeriesCard from "@/components/anime/SeriesCard";

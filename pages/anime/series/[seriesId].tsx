@@ -6,7 +6,7 @@ import { RoutePath } from "@/constants/route";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import { QueryKey } from "@/constants/query-key";
-import { fetchGetSeriesDetail } from "@/api/anime/anime.api";
+import { fetchGetSeriesDetail } from "@/fetch/anime/anime.api";
 import { servePath } from "@/utils/file";
 
 const SeriesDetailPage = () => {

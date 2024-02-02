@@ -14,7 +14,7 @@ import { blue, grey, pink } from "@mui/material/colors";
 import {
   fetchRemoveScrappedAnime,
   fetchScrapAnime,
-} from "@/api/scrap/scrap.api";
+} from "@/fetch/scrap/scrap.api";
 import { servePath } from "@/utils/file";
 import { BookmarkAdd, BookmarkRemove } from "@mui/icons-material";
 

@@ -1,14 +1,14 @@
-import api from "@/api";
+import api from "fetch";
 import {
   FetchSignInDto,
   FetchSignUpDto,
   FetchUpdateProfileDto,
-} from "@/api/user/user.dto";
+} from "@/fetch/user/user.dto";
 import {
   FetchSignInResponse,
   FetchUpdateProfileResponse,
-} from "@/api/user/user.response";
-import { FetchSuccessResponse } from "@/api/common/common.response";
+} from "@/fetch/user/user.response";
+import { FetchSuccessResponse } from "@/fetch/common/common.response";
 
 export const fetchSignIn = async (body: FetchSignInDto) => {
   const { data } = await api.post<FetchSignInResponse>("/auth/signin", body);

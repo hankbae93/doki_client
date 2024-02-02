@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { QueryKey } from "@/constants/query-key";
 import { Review } from "@/types/review";
-import { fetchGetAnimeDetail } from "@/api/anime/anime.api";
+import { fetchGetAnimeDetail } from "@/fetch/anime/anime.api";
 
 const useAnimeQuery = () => {
   const { query } = useRouter();

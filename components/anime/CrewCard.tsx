@@ -4,7 +4,7 @@ import { Link } from "@mui/material";
 import CardMedia from "@mui/material/CardMedia";
 import DefaultImg from "@/assets/default_img.png";
 import Card from "@mui/material/Card";
-import { CrewListData } from "@/api/anime/anime.response";
+import { CrewListData } from "@/fetch/anime/anime.response";
 import { RoutePath } from "@/constants/route";
 
 const CrewCard = ({ id, name, thumbnail }: CrewListData) => {

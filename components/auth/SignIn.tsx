@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 import { useUserStore } from "@/atoms/user";
 import { useRouter } from "next/router";
-import { fetchSignIn } from "@/api/user/user.api";
+import { fetchSignIn } from "@/fetch/user/user.api";
 
 const SignIn = () => {
   const { setUser } = useUserStore();

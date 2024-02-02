@@ -1,15 +1,15 @@
-import api from "@/api";
+import api from "fetch";
 
 import {
   FetchCreateReviewDto,
   FetchUpdateMyReviewDto,
-} from "@/api/review/review.dto";
+} from "@/fetch/review/review.dto";
 import {
   FetchCreateReviewResponse,
   FetchGetMyReviewResponse,
   FetchGetReviewListByAnimeResponse,
   FetchUpdateMyReviewResponse,
-} from "@/api/review/review.response";
+} from "@/fetch/review/review.response";
 
 export const fetchGetMyReview = async (animeId: number) => {
   const { data } = await api.get<FetchGetMyReviewResponse>(
