@@ -36,7 +36,11 @@ jobs:
           username: ${{ secrets.GCP_VM_USERNAME }}
           port: 22
           script: |
+            DATE=$(date +%Y-%m-%d)
+            
             sudo echo "${{ secrets.ENV_PRODUCTION }}" > .env
+            echo "NEXT_PUBLIC_VERSION=$DATE" >> .env
+
             cat .env
             
             sudo sed -i "s/server 127.0.0.1:3000.*/server 127.0.0.1:3000 down;/" /etc/nginx/nginx.conf

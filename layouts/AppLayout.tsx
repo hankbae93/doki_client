@@ -11,6 +11,8 @@ const AppLayout = ({ children }: { children: ReactNode }) => {
       >
         {children}
       </Box>
+
+      <footer>업데이트날짜 {process.env.UPDATED_AT}</footer>
     </>
   );
 };
