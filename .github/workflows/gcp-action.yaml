@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    name: Doki API Action
+    name: Doki Client Deploy
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Branch
@@ -28,7 +28,6 @@ jobs:
       - name: Push Docker Image to Hub
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/doki-frontend:latest
 
-
       - name: SSH into GCP VM and Deploy
         uses: appleboy/ssh-action@master
         with:
@@ -39,18 +38,31 @@ jobs:
           script: |
             sudo echo "${{ secrets.ENV_PRODUCTION }}" > .env
             cat .env
+            
+            sudo sed -i "s/server 127.0.0.1:3000.*/server 127.0.0.1:3000 down;/" /etc/nginx/nginx.conf
+            sudo systemctl reload nginx
 
             if sudo docker ps -a | grep -q 'container-3000'; then
             sudo docker rm -f container-3000
             fi
             sudo docker run --name container-3000 --env-file ./.env -d -p 3000:3000 ${{ secrets.DOCKERHUB_USERNAME }}/doki-fronted:latest
+            sleep 10
+            
+            sudo sed -i "s/server 127.0.0.1:3000 down;/server 127.0.0.1:3000;/" /etc/nginx/nginx.conf
+            sudo sed -i "s/server 127.0.0.1:3001.*/server 127.0.0.1:3001 down;/" /etc/nginx/nginx.conf
+            sudo systemctl reload nginx
 
             if sudo docker ps -a | grep -q 'container-3001'; then
             sudo docker rm -f container-3001
             fi
             sudo docker run --name container-3001 --env-file ./.env -d -p 3001:3001 ${{ secrets.DOCKERHUB_USERNAME }}/doki-fronted:latest
-
+            sleep 10
+            
             sudo docker ps
+            
+            sudo sed -i "s/server 127.0.0.1:8001 down;/server 127.0.0.1:8001;/" /etc/nginx/nginx.conf
+            sudo systemctl reload nginx
+
 
       - name: Send Build Success Message
         uses: appleboy/telegram-action@master
