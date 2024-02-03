@@ -44,7 +44,7 @@ jobs:
             cat .env
             
             sudo sed -i "s/server 127.0.0.1:3000.*/server 127.0.0.1:3000 down;/" /etc/nginx/nginx.conf
-            sudo systemctl reload nginx
+            sudo systemctl reload -s nginx
 
             if sudo docker ps -a | grep -q 'container-3000'; then
             sudo docker rm -f container-3000
@@ -64,9 +64,8 @@ jobs:
             
             sudo docker ps
             
-            sudo sed -i "s/server 127.0.0.1:8001 down;/server 127.0.0.1:8001;/" /etc/nginx/nginx.conf
+            sudo sed -i "s/server 127.0.0.1:3001 down;/server 127.0.0.1:3001;/" /etc/nginx/nginx.conf
             sudo systemctl reload nginx
-
 
       - name: Send Build Success Message
         uses: appleboy/telegram-action@master
