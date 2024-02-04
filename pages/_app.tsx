@@ -1,18 +1,18 @@
 import type { AppProps } from "next/app";
-import RecoilProvider from "@/provider/RecoilProvider";
-import ReactQueryProvider from "@/provider/ReactQueryProvider";
-import AuthProvider from "@/provider/AuthProvider";
-import combineProviders from "@/provider/combineProviders";
+import RecoilProvider from "@/src/provider/RecoilProvider";
+import ReactQueryProvider from "@/src/provider/ReactQueryProvider";
+import AuthProvider from "@/src/provider/AuthProvider";
+import combineProviders from "@/src/provider/combineProviders";
 import { ToastContainer } from "react-toastify";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import AppLayout from "@/layouts/AppLayout";
+import AppLayout from "@/src/layouts/AppLayout";
 import { NextPage } from "next";
 import { DehydratedState } from "@tanstack/query-core";
 import { ReactElement, ReactNode, useMemo } from "react";
-import MUIProvider from "@/provider/MUIProvider";
+import MUIProvider from "@/src/provider/MUIProvider";
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -52,16 +52,15 @@ function MyApp({
         [AuthProvider],
         [MUIProvider],
       ]),
-    [pageProps.dehydratedState],
+    [pageProps],
   );
-
-  const getLayout =
-    Component.getLayout ?? ((page) => <AppLayout>{page}</AppLayout>);
 
   return (
     <CacheProvider value={emotionCache}>
       <CombineProvider>
-        {getLayout(<Component {...pageProps} />)}
+        <AppLayout>
+          <Component {...pageProps} />
+        </AppLayout>
         <ToastContainer />
       </CombineProvider>
     </CacheProvider>

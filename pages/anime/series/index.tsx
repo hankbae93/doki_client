@@ -1,5 +1,5 @@
-import PageLayout from "@/layouts/PageLayout";
-import SeriesList from "@/components/anime/SeriesList";
+import PageLayout from "@/src/layouts/PageLayout";
+import SeriesList from "@/src/components/anime/SeriesList";
 
 const SeriesListPage = () => {
   return (

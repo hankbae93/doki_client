@@ -1,13 +1,13 @@
 import React from "react";
-import PageLayout from "@/layouts/PageLayout";
+import PageLayout from "@/src/layouts/PageLayout";
 import { Box, Chip, Grid, Typography } from "@mui/material";
-import AnimeCard from "@/components/anime/AnimeCard";
-import { RoutePath } from "@/constants/route";
+import AnimeCard from "@/src/components/anime/AnimeCard";
+import { RoutePath } from "@/src/constants/route";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
-import { QueryKey } from "@/constants/query-key";
-import { fetchGetSeriesDetail } from "@/fetch/anime/anime.api";
-import { servePath } from "@/utils/file";
+import { QueryKey } from "@/src/constants/query-key";
+import { fetchGetSeriesDetail } from "@/src/api/anime/anime.api";
+import { servePath } from "@/src/utils/file";
 
 const SeriesDetailPage = () => {
   const query = useRouter().query;

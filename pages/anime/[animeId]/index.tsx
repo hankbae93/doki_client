@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import AnimeDetail from "@/components/anime/AnimeDetail";
+import AnimeDetail from "@/src/components/anime/AnimeDetail";
 
 const AnimeDetailPage: NextPage = () => {
   return <AnimeDetail />;

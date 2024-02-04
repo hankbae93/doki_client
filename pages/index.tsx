@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
-import AnimeList from "@/components/anime/AnimeList";
-import PageLayout from "@/layouts/PageLayout";
+import AnimeList from "@/src/components/anime/AnimeList";
+import PageLayout from "@/src/layouts/PageLayout";
 
 const Home: NextPage = () => {
   return (

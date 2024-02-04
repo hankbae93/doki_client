@@ -1,5 +1,5 @@
-import AuthLayout from "@/layouts/auth-layout";
-import SignIn from "@/components/auth/SignIn";
+import AuthLayout from "@/src/layouts/auth-layout";
+import SignIn from "@/src/components/auth/SignIn";
 import { NextPage } from "next";
 
 const SignInPage: NextPage = () => {

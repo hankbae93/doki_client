@@ -1,8 +1,9 @@
 import { NextPage } from "next";
-import { Box, Container, Grid, Stack, Typography } from "@mui/material";
+import { Grid } from "@mui/material";
 import React, { ChangeEventHandler, useState } from "react";
-import AccountProfileDetail from "@/components/my/AccountProfileDetail";
-import AccountProfile from "@/components/my/AccountProfile";
+import AccountProfileDetail from "@/src/components/my/AccountProfileDetail";
+import AccountProfile from "@/src/components/my/AccountProfile";
+import PageLayout from "@/src/layouts/PageLayout";
 
 const ProfilePage: NextPage = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -15,33 +16,17 @@ const ProfilePage: NextPage = () => {
   };
 
   return (
-    <>
-      <Box
-        sx={{
-          flexGrow: 1,
-          py: 8,
-        }}
-      >
-        <Container maxWidth="lg">
-          <Stack spacing={3}>
-            <div>
-              <Typography variant="h4">Account</Typography>
-            </div>
-            <div>
-              <Grid container spacing={3}>
-                <Grid xs={12} md={6} lg={4}>
-                  <AccountProfile file={file} setFile={handleFileUpload} />
-                </Grid>
+    <PageLayout title="Account">
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <AccountProfile file={file} setFile={handleFileUpload} />
+        </Grid>
 
-                <Grid xs={12} md={6} lg={8}>
-                  <AccountProfileDetail file={file} />
-                </Grid>
-              </Grid>
-            </div>
-          </Stack>
-        </Container>
-      </Box>
-    </>
+        <Grid item xs={6}>
+          <AccountProfileDetail file={file} />
+        </Grid>
+      </Grid>
+    </PageLayout>
   );
 };
 

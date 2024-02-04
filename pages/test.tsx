@@ -1,6 +1,6 @@
 import React, { ChangeEventHandler, useState } from "react";
 import { Button, Stack } from "@mui/material";
-import api from "fetch";
+import api from "src/api";
 import { toast } from "react-toastify";
 
 const MyComponent = () => {

@@ -1,6 +1,6 @@
 import { NextPage } from "next";
-import CreateAnimeForm from "@/components/create/CreateAnimeForm";
-import PageLayout from "@/layouts/PageLayout";
+import CreateAnimeForm from "@/src/components/create/CreateAnimeForm";
+import PageLayout from "@/src/layouts/PageLayout";
 
 const AnimeCreatePage: NextPage = () => {
   return (

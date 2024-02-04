@@ -1,5 +1,5 @@
-import AuthLayout from "@/layouts/auth-layout";
-import SignUp from "@/components/auth/SignUp";
+import AuthLayout from "@/src/layouts/auth-layout";
+import SignUp from "@/src/components/auth/SignUp";
 
 const SignUpPage = () => {
   return (
