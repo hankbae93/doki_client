@@ -22,11 +22,19 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build Docker Image
-        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/doki-frontend:latest .
+      - name: Get Latest Docker Image Tag
+        id: latest_tag
+        run: |
+          latest_tag=$(curl -s "https://registry.hub.docker.com/v2/repositories/${{ secrets.DOCKERHUB_USERNAME }}/doki-frontend/tags/" | jq -r '.results|.[]|.name' | grep -E '^[0-9]+$' | sort -n | tail -1)
+          next_tag=$((latest_tag + 1))
+          echo "::set-output name=tag::$next_tag"
+
+      - name: Build Docker Image with Latest Tag
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/doki-frontend:${{ steps.latest_tag.outputs.tag }} .
 
       - name: Push Docker Image to Hub
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/doki-frontend:latest
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/doki-frontend:${{ steps.latest_tag.outputs.tag }}
 
       - name: SSH into GCP VM and Deploy
         uses: appleboy/ssh-action@master
@@ -49,7 +57,7 @@ jobs:
             if sudo docker ps -a | grep -q 'container-3000'; then
             sudo docker rm -f container-3000
             fi
-            sudo docker run --name container-3000 --env-file ./.env -d -p 3000:3000 ${{ secrets.DOCKERHUB_USERNAME }}/doki-frontend:latest
+            sudo docker run --name container-3000 --env-file ./.env -d -p 3000:3000 ${{ secrets.DOCKERHUB_USERNAME }}/doki-frontend:${{ steps.latest_tag.outputs.tag }}
             sleep 10
             
             sudo sed -i "s/server 127.0.0.1:3000 down;/server 127.0.0.1:3000;/" /etc/nginx/nginx.conf
@@ -59,7 +67,7 @@ jobs:
             if sudo docker ps -a | grep -q 'container-3001'; then
             sudo docker rm -f container-3001
             fi
-            sudo docker run --name container-3001 --env-file ./.env -d -p 3001:3001 ${{ secrets.DOCKERHUB_USERNAME }}/doki-frontend:latest
+            sudo docker run --name container-3001 --env-file ./.env -d -p 3001:3001 ${{ secrets.DOCKERHUB_USERNAME }}/doki-frontend:${{ steps.latest_tag.outputs.tag }}
             sleep 10
             
             sudo docker ps
@@ -98,4 +106,3 @@ jobs:
             Commit message: ${{ github.event.commits[0].message }}
 
             [link](https://github.com/${{ github.repository }}/actions)
-     
