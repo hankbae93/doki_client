@@ -44,7 +44,7 @@ const useAuthAnimeListQuery = ({
         page,
       }),
     {
-      enabled: user?.id ? accessTokenUpdated : !accessTokenUpdated,
+      enabled: !!user?.id && accessTokenUpdated,
     },
   );
 };
