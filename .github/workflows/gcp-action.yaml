@@ -45,16 +45,15 @@ jobs:
           port: 22
           script: |
             sudo echo "${{ secrets.ENV_PRODUCTION }}" > .env
-            echo "NEXT_PUBLIC_VERSION=$(date +'%Y-%m-%dT%H:%M:%S')" >> .env
-
-            cat .env
+            sudo echo "NEXT_PUBLIC_VERSION=$(date +'%Y-%m-%dT%H:%M:%S')" >> .env
             
             sudo sed -i "s/server 127.0.0.1:3000.*/server 127.0.0.1:3000 down;/" /etc/nginx/nginx.conf
-            sudo systemctl reload -s nginx
+            sudo systemctl reload nginx
 
             if sudo docker ps -a | grep -q 'container-3000'; then
             sudo docker rm -f container-3000
             fi
+            
             sudo docker pull doki-frontend:${{ steps.latest_tag.outputs.tag }}
             sudo docker run --name container-3000 --env-file ./.env -d -p 3000:3000 ${{ secrets.DOCKERHUB_USERNAME }}/doki-frontend:${{ steps.latest_tag.outputs.tag }}
             sleep 10
