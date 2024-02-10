@@ -3,14 +3,11 @@ import {
   FetchCreateAnimeResponse,
   FetchGetAnimeDetailResponse,
   FetchGetAnimeListResponse,
-  FetchGetCrewDetailResponse,
   FetchGetCrewListResponse,
   GetSeriesDetailResponse,
   GetSeriesListResponse,
 } from "@/src/api/anime/anime.response";
 import { FetchGetAnimeListDto } from "@/src/api/anime/anime.dto";
-import { APIResponse } from "@/src/types/common";
-import { Crew } from "@/src/types/anime";
 
 export const fetchGetAnimeDetail = async (animeId: number) => {
   const { data } = await api.get<FetchGetAnimeDetailResponse>(
@@ -69,23 +66,6 @@ export const fetchGetSeriesList = async () => {
 
   return data.data;
 };
-
-export const fetchGetCrewDetail = async (crewId: number) => {
-  const { data } = await api.get<FetchGetCrewDetailResponse>(`/crew/${crewId}`);
-
-  return data.data;
-};
-
-export const fetchGetCrewListByKeyword = async (keyword: string) => {
-  const { data } = await api.get<APIResponse<Crew[]>>("/crew/search", {
-    params: {
-      keyword,
-    },
-  });
-
-  return data.data;
-};
-
 export const fetchGetSeriesDetail = async (seriesId: number) => {
   const { data } = await api.get<GetSeriesDetailResponse>(
     `/anime/series/${seriesId}`,

@@ -1,8 +1,7 @@
-import { Avatar, Box, Button, Card, Typography } from "@mui/material";
+import { Avatar, Box, Card, Typography } from "@mui/material";
 import { useUserStore } from "@/src/atoms/user";
 import useMount from "@/src/hooks/useMount";
 import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
 import React, { ChangeEventHandler, useEffect, useState } from "react";
 import { User, UserRank } from "@/src/types/user";
 import dayjs from "dayjs";
@@ -64,22 +63,6 @@ const AccountProfile = ({
           </Typography>
         </Box>
       </CardContent>
-
-      {/*<Divider />*/}
-      <CardActions>
-        <Button fullWidth variant="text">
-          <label htmlFor="upload-image">
-            썸네일 업로드
-            <input
-              id="upload-image"
-              hidden
-              accept="image/*"
-              type="file"
-              onChange={handleFileUpload}
-            />
-          </label>
-        </Button>
-      </CardActions>
     </Card>
   );
 };

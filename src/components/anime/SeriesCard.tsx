@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import Card from "@mui/material/Card";
 import { blue, grey } from "@mui/material/colors";
 import { Link } from "@mui/material";
-import CardMedia from "@mui/material/CardMedia";
-import { servePath } from "@/src/utils/file";
 import CardHeader from "@mui/material/CardHeader";
 import { AnimeSource } from "@/src/types/anime";
+import MediaCard from "@/src/components/common/MediaCard";
 
 export interface SeriesCardProps {
   title: string;
@@ -51,12 +50,7 @@ const SeriesCard = ({
       onMouseLeave={() => setIsHover(false)}
     >
       <Link href={href}>
-        <CardMedia
-          component="img"
-          height="194"
-          image={servePath(thumbnail)}
-          alt={title}
-        />
+        <MediaCard src={thumbnail} alt={title} />
       </Link>
       <CardHeader
         title={title}

@@ -44,10 +44,8 @@ jobs:
           username: ${{ secrets.GCP_VM_USERNAME }}
           port: 22
           script: |
-            DATE=$(date +%Y-%m-%d)
-            
             sudo echo "${{ secrets.ENV_PRODUCTION }}" > .env
-            echo "NEXT_PUBLIC_VERSION=$DATE" >> .env
+            echo "NEXT_PUBLIC_VERSION=$(date +'%Y-%m-%dT%H:%M:%S')" >> .env
 
             cat .env
             
@@ -57,6 +55,7 @@ jobs:
             if sudo docker ps -a | grep -q 'container-3000'; then
             sudo docker rm -f container-3000
             fi
+            sudo docker pull doki-frontend:${{ steps.latest_tag.outputs.tag }}
             sudo docker run --name container-3000 --env-file ./.env -d -p 3000:3000 ${{ secrets.DOCKERHUB_USERNAME }}/doki-frontend:${{ steps.latest_tag.outputs.tag }}
             sleep 10
             

@@ -3,7 +3,7 @@ import process from "process";
 
 const api = axios.create({
   baseURL:
-    process.env.NODE_ENV === "development"
+    process.env.NODE_ENV !== "development"
       ? "http://localhost:8000"
       : "https://api.doki-doki.shop",
 });

@@ -1,6 +1,5 @@
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import IconButton from "@mui/material/IconButton";
@@ -15,8 +14,8 @@ import {
   fetchRemoveScrappedAnime,
   fetchScrapAnime,
 } from "@/src/api/scrap/scrap.api";
-import { servePath } from "@/src/utils/file";
 import { BookmarkAdd, BookmarkRemove } from "@mui/icons-material";
+import MediaCard from "@/src/components/common/MediaCard";
 
 export interface AnimeCardProps {
   title: string;
@@ -82,12 +81,7 @@ const AnimeCard = ({
       onMouseLeave={() => setIsHover(false)}
     >
       <Link href={href}>
-        <CardMedia
-          component="img"
-          height="194"
-          image={servePath(thumbnail)}
-          alt={title}
-        />
+        <MediaCard src={thumbnail} alt={title} />
       </Link>
       <CardHeader
         title={title}

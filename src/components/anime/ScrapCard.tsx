@@ -4,8 +4,6 @@ import { fetchRemoveScrappedAnime } from "@/src/api/scrap/scrap.api";
 import Card from "@mui/material/Card";
 import { blue, grey, pink } from "@mui/material/colors";
 import { Link } from "@mui/material";
-import CardMedia from "@mui/material/CardMedia";
-import { servePath } from "@/src/utils/file";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -16,6 +14,7 @@ import ShareIcon from "@mui/icons-material/Share";
 import useScrapQuery from "@/src/hooks/queries/useScrapQuery";
 import { RoutePath } from "@/src/constants/route";
 import { toast } from "react-toastify";
+import MediaCard from "@/src/components/common/MediaCard";
 
 interface ScrapCardProps {
   scrapId: number;
@@ -59,12 +58,7 @@ const ScrapCard = ({ scrapId }: ScrapCardProps) => {
       }}
     >
       <Link href={`${RoutePath.ANIME}/${scrap?.anime.id}`}>
-        <CardMedia
-          component="img"
-          height="194"
-          image={servePath(scrap?.anime.thumbnail)}
-          alt={scrap?.anime.title}
-        />
+        <MediaCard src={scrap?.anime.thumbnail} alt={scrap?.anime.title} />
       </Link>
       <CardHeader
         title={scrap?.anime.title}
