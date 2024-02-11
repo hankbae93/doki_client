@@ -65,7 +65,7 @@ jobs:
             if sudo docker ps -a | grep -q 'container-3001'; then
             sudo docker rm -f container-3001
             fi
-            sudo docker run --name container-3001 --env-file ./.env -d -p 3001:3001 ${{ secrets.DOCKERHUB_USERNAME }}/doki-frontend:${{ steps.latest_tag.outputs.tag }}
+            sudo docker run --name container-3001 --env-file ./.env -d -p 3001:3000 ${{ secrets.DOCKERHUB_USERNAME }}/doki-frontend:${{ steps.latest_tag.outputs.tag }}
             sleep 10
             
             sudo docker ps
